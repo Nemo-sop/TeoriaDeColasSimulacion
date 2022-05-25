@@ -35,7 +35,7 @@ def simular(proxima_llegada, permanencia_inicial, tiempo_total_simulacion, capac
 
 
     reloj = 0
-    proximos_eventos = {"llegda":[],"salida":[]}
+    proximos_eventos = [("llegada", 22),("salida", 45), ("llegada", 46)]
     while reloj <= tiempo_total_simulacion:
         evento = min(proximos_eventos)
 
