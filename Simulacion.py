@@ -34,12 +34,12 @@ def simular(proxima_llegada, permanencia_inicial, tiempo_total_simulacion, capac
     normal_operacion = [60, 20]
 
 
-    # reloj = 0
-    # proximos_eventos = {"llegda":[],"salida":[]}
-    # while reloj <= tiempo_total_simulacion:
-    #     evento = min(proximos_eventos)
-    #     actualizar(evento,)
-    #
+    reloj = 0
+    proximos_eventos = {"llegda":[],"salida":[]}
+    while reloj <= tiempo_total_simulacion:
+        evento = min(proximos_eventos)
+        actualizar(evento,)
+
 
     tabla = pd.DataFrame(
         {"Evento": [],
