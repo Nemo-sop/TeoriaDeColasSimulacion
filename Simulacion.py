@@ -38,7 +38,19 @@ def simular(proxima_llegada, permanencia_inicial, tiempo_total_simulacion, capac
     proximos_eventos = {"llegda":[],"salida":[]}
     while reloj <= tiempo_total_simulacion:
         evento = min(proximos_eventos)
-        actualizar(evento,)
+
+        vector_nuevo, vector_anterior = actualizar(evento, vector_actual, vector_anterior)
+
+        reloj += evento.time
+
+
+
+def actualizar(evento, vector_actual, vector_anterior):
+    if evento =="llegada":
+        pass #return vector_nuevo, vector_anterior
+
+
+
 
 
     tabla = pd.DataFrame(
