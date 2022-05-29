@@ -16,6 +16,8 @@ parametros = [
     [media_operacion, dvstd_operacion]
 ]
 """
+
+
 def exponencialNegativa(media):
     rnd = random.random()
     return -media * np.log(1 - rnd)
@@ -25,10 +27,13 @@ def normal(media, desvEst):
     rnds = [random.random() for i in range(12)]
     return (np.sum(rnds)-6) * desvEst + media
 
+
 def uniforme(a,b):
     return a + random.random() * (b - a)
 
-def simular(proxima_llegada, permanencia_inicial, tiempo_total_simulacion, capacidad_maxima_tierra, media_distribucion_llegada, uniforme_despegue, uniforme_aterrizaje, normal_operacion):
+
+def simular(proxima_llegada, permanencia_inicial, tiempo_total_simulacion, capacidad_maxima_tierra
+            , media_distribucion_llegada, uniforme_despegue, uniforme_aterrizaje, normal_operacion):
     permanencia_inicial = [7, 9, 15, 17, 20]
     uniforme_despegue = [4,7]
     uniforme_aterrizaje = [3,5]
