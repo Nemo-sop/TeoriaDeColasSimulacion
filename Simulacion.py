@@ -19,8 +19,7 @@ parametros = [
 
 
 def exponencialNegativa(media):
-    rnd = random.random()
-    return -media * np.log(1 - rnd)
+    return -media * np.log(1 - random.random())
 
 
 def normal(media, desvEst):
@@ -39,6 +38,26 @@ def simular(proxima_llegada, permanencia_inicial, tiempo_total_simulacion, capac
     uniforme_aterrizaje = [3,5]
     normal_operacion = [60, 20]
 
+
+    reloj = 0
+    proximos_eventos = [("llegada", 22),("salida", 45), ("llegada", 46)]
+    while reloj <= tiempo_total_simulacion:
+        evento = min(proximos_eventos)
+
+        vector_nuevo, vector_anterior = actualizar(evento, vector_actual, vector_anterior)
+
+        reloj += evento.time
+
+
+
+def actualizar(evento, vector_actual, vector_anterior):
+    if evento =="llegada":
+        pass #return vector_nuevo, vector_anterior
+
+
+
+
+
     tabla = pd.DataFrame(
         {"Evento": [],
          "Reloj": [],
@@ -48,8 +67,16 @@ def simular(proxima_llegada, permanencia_inicial, tiempo_total_simulacion, capac
          "FA_RND": [],
          "FA_tiempo_aterrizaje": [],
          "FA_finalizacion_aterrizaje": [],
-         "FA_RND": [],
-         "FA_RND": [],
-         "FA_RND": [],
-         "FA_RND": []
+         "FO_RND": [],
+         "FO_tiempo operacion": [],
+         "FO_finalizacion_operacion": [],
+         "SA_rnd":[],
+         "SA_tiempo_despegue": [],
+         "SA_finalizacion_despegue": [],
+         "Estado pista":[],
+         "cola aire": [],
+         "cola tierra": [],
+         "cant naves_en_tierra":[],
+         "naves"
+         "naves_salientes":[]
          })
