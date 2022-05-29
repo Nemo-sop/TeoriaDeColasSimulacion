@@ -19,12 +19,12 @@ parametros = [
 
 
 def exponencialNegativa(media):
-    return -media * np.log(1 - random.random())
+    return - media * np.log( 1 - random.random() )
 
 
 def normal(media, desvEst):
-    rnds = [random.random() for i in range(12)]
-    return (np.sum(rnds)-6) * desvEst + media
+    rnds = [ random.random() for i in range(12) ]
+    return ( np.sum(rnds) - 6 ) * desvEst + media
 
 
 def uniforme(a,b):
@@ -33,11 +33,11 @@ def uniforme(a,b):
 
 def simular(proxima_llegada, permanencia_inicial, tiempo_total_simulacion, capacidad_maxima_tierra
             , media_distribucion_llegada, uniforme_despegue, uniforme_aterrizaje, normal_operacion):
+
     permanencia_inicial = [7, 9, 15, 17, 20]
     uniforme_despegue = [4,7]
     uniforme_aterrizaje = [3,5]
     normal_operacion = [60, 20]
-
 
     reloj = 0
     proximos_eventos = [("llegada", 22),("salida", 45), ("llegada", 46)]
@@ -51,8 +51,22 @@ def simular(proxima_llegada, permanencia_inicial, tiempo_total_simulacion, capac
 
 
 def actualizar(evento, vector_actual, vector_anterior):
-    if evento =="llegada":
-        pass #return vector_nuevo, vector_anterior
+    if evento == "llegada":
+        pass
+        # Se genera un nuevo RND llegada
+        # if pista.estado == "Ocupada":
+            # cola += 1
+            # avion.estado = "EsperandoAire"
+        # elif pista.estado == "Libre"
+            # Se genera RND de aterrizaje
+            # avion.estado == "Aterrizando"
+
+    elif evento == "salida":
+        pass
+    elif evento == "llegada":
+        pass
+
+    #return vector_nuevo, vector_anterior
 
 
 
