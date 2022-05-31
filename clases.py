@@ -7,14 +7,15 @@ class Avion():
 
     def __init__(self, estado, tiempo_llegada,tiempo_espera_aire=0, tiempo_espera_tierra=0,normal = (60,20), despegue = (4,7)
                  ,aterrizaje = (3,5)):
-        self.__nombre = random.choice(string.ascii_letters) + str(random.randint(1,100)) + random.choice(string.ascii_letters)
+        self.__nombre = random.choice(string.ascii_letters) + str(random.randint(1, 100)) \
+                        + random.choice(string.ascii_letters)
         self.__estado = estado
         self.__tiempo_llegada = tiempo_llegada
         self.__tiempo_espera_aire = tiempo_espera_aire
         self.__tiempo_espera_tierra = tiempo_espera_tierra
-        self.__demora_aterrizar = round(distribuciones.uniforme(aterrizaje[0],aterrizaje[1]),2)
-        self.__demora_despegar =  round(distribuciones.uniforme(despegue[0],despegue[1]),2)
-        self.__demora_estacion =  round(distribuciones.normal(normal[0],normal[1]),2)
+        self.__demora_aterrizar = round(distribuciones.uniforme(aterrizaje[0], aterrizaje[1]), 4)
+        self.__demora_despegar = round(distribuciones.uniforme(despegue[0], despegue[1]), 4)
+        self.__demora_estacion = round(distribuciones.normal(normal[0], normal[1]), 4)
 
         self.__tiempo_en_estacion = tiempo_llegada + tiempo_espera_aire + self.__demora_aterrizar
 
@@ -30,20 +31,25 @@ class Avion():
 
     def get_demora_aterrizar(self):
         return self.__demora_aterrizar
+
     def get_tiempo_llegada(self):
         return self.__tiempo_llegada
+
     def get_demora_estacion(self):
         return self.__demora_estacion
+
     def get_demora_despegue(self):
         return  self.__demora_despegar
 
-    def set_estado(self,estado):
+    def set_estado(self, estado):
         self.__estado = estado
+
     def get_estado(self):
         return self.__estado
 
-    def agregar_tierra(self,tmp):
+    def agregar_tierra(self, tmp):
         self.__tiempo_espera_tierra += tmp
+
     def get_tierra(self):
         return self.__tiempo_espera_tierra
 
