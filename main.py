@@ -9,7 +9,7 @@ import clases
 import distribuciones
 import bisect
 import pandas as pd
-
+import numpy as np
 
 def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nuevo, normal, uniAterrizaje,
             uniSalidas, expNegLlegadas, capMax):
@@ -317,35 +317,79 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
 
     # Cálculo de Estadísticos...
 
-    estadisticos = []
+    # ACLARACIÓN! -> En caso de tocar, recordar que el estadístico[2] es el último que calculamos de todos.
 
-    # tiempo promedio permanencia
+    estadisticos = np.zeros(9)
+
+    # tiempo promedio permanencia -> Servidor
 
     promedioPermanencia = data2["tiempo de permanencia en el sistema"].mean()
     estadisticos[0] = promedioPermanencia
 
-    # porcentaje permanencia en tierra
+    # porcentaje permanencia en tierra -> Cola
+
+    """
+      Esto no anda porque falta calcular bien el tiempo espera tierra total
+    """
 
     cantAviones = len(data2["avion"]) - 1
-    porcentajePermanencia = (data2.loc[data2.index[-1], "tiempo espera tierra total"] / cantAviones) * 100
+    porcentajePermanencia = (float(data2.loc[data2.index[-1], "tiempo espera tierra total"]) / cantAviones) * 100
 
     estadisticos[1] = porcentajePermanencia
 
-    # cantidad promedio de clientes en cola en aire
+    # cantidad promedio de clientes en cola en aire -> Cola
+
+    # porcentaje de ocupacion de la pista -> Servidor
+    porcentajeOcupacionPista = data.loc[data.index[-1], "porcentaje ocupacion"]
+
+    estadisticos[2] = porcentajeOcupacionPista
 
 
 
-    # tiempo de la pista libre
+    # tiempo de la pista libre -> Servidor
+    tiempoOcupacionTotal = pista.acum_tmp_ocup()
+    tiempoPistaLibre = duracion - tiempoOcupacionTotal
 
-    # caudal de salida
+    estadisticos[3] = tiempoPistaLibre
 
-    # avión que más esperó
 
-    # cantidad aviones derivados
+    # caudal de salida -> Servidor
+    caudalSalida = data.loc[data.index[-1], "salidas"]
 
-    # cantidad aviones que llegaron
+    estadisticos[4] = caudalSalida
 
-    # cantidad aviones aterizados.
+    # tiempo del avión que más esperó -> Cliente
+    """
+    Esto no anda
+    """
+
+    todosLosTiemposEsperaTierra = data2["tiempo espera en tierra"]
+    todosLosTiemposEsperaEnAire = data2["tiempo espera en aire"]
+    sumaTiemposEspera = 0
+    mayorTiempoEspera = 0
+
+    for i in range(len(data2["tiempo espera en tierra"]) - 1):
+        sumaTiemposEspera = todosLosTiemposEsperaEnAire[i] + todosLosTiemposEsperaTierra[i]
+        mayorTiempoEspera = max(sumaTiemposEspera, mayorTiempoEspera)
+
+    estadisticos[5] = mayorTiempoEspera
+
+
+    # cantidad aviones derivados -> Cliente
+    cantDerivados = data.loc[data.index[-1], "derivados"]
+
+    estadisticos[6] = cantDerivados
+
+
+    # cantidad aviones que llegaron -> Cliente
+    cantLlegados = data.loc[data.index[-1], "llegadas"]
+
+    estadisticos[7] = cantLlegados
+
+    # cantidad aviones aterizados -> Cliente
+    cantAterrizados = data.loc[data.index[-1], "aterrizajes"]
+
+    estadisticos[8] = cantAterrizados
 
     pantalla.cargarResultados(data, estadisticos)
 

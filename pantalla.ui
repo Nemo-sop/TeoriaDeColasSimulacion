@@ -154,6 +154,15 @@
        </color>
       </brush>
      </colorrole>
+     <colorrole role="PlaceholderText">
+      <brush brushstyle="NoBrush">
+       <color alpha="128">
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+       </color>
+      </brush>
+     </colorrole>
     </active>
     <inactive>
      <colorrole role="WindowText">
@@ -285,6 +294,15 @@
      <colorrole role="ToolTipText">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="PlaceholderText">
+      <brush brushstyle="NoBrush">
+       <color alpha="128">
         <red>0</red>
         <green>0</green>
         <blue>0</blue>
@@ -428,6 +446,15 @@
        </color>
       </brush>
      </colorrole>
+     <colorrole role="PlaceholderText">
+      <brush brushstyle="NoBrush">
+       <color alpha="128">
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+       </color>
+      </brush>
+     </colorrole>
     </disabled>
    </palette>
   </property>
@@ -456,6 +483,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Berlin Sans FB</family>
       <pointsize>28</pointsize>
      </font>
     </property>
@@ -474,6 +502,8 @@
     </property>
     <property name="font">
      <font>
+      <family>Berlin Sans FB</family>
+      <pointsize>10</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -1280,7 +1310,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Cantidad promedio de clientes en cola en aire</string>
+      <string>Porcentaje Ocupación de la Pista</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_16">
@@ -1296,10 +1326,10 @@
       <string>Tiempo de la Pista Libre</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="txtCantPromClientesEnAire">
+    <widget class="QLineEdit" name="txtPorcOcupacionPista">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>280</x>
        <y>350</y>
        <width>139</width>
        <height>24</height>
@@ -1464,6 +1494,7 @@
      </property>
      <property name="font">
       <font>
+       <family>Berlin Sans FB</family>
        <pointsize>15</pointsize>
        <weight>50</weight>
        <bold>false</bold>

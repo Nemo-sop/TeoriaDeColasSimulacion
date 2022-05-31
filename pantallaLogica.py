@@ -2,6 +2,7 @@ import PyQt5
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from main import *
+import distribuciones as d
 
 
 class PantallaIngreso(QMainWindow):
@@ -63,14 +64,14 @@ class PantallaIngreso(QMainWindow):
             fila = fila + 1
 
     def cargarEstadisticas(self, estadisticas):
-        self.txtTiempoPromedioPermSistema.setText(estadisticas[0])
-        self.txtPorcPromedioPermTierra.setText(estadisticas[1])
-        self.txtCantPromClientesEnAire.setText(estadisticas[2])
+        self.txtTiempoPromedioPermSistema.setText(str(d.truncate(estadisticas[0], 4)))
+        self.txtPorcPromedioPermTierra.setText(str(d.truncate(estadisticas[1], 4)))
+        self.txtPorcOcupacionPista.setText(str(d.truncate(estadisticas[2], 4)))
 
-        self.txtTiempoPistaLibre.setText(estadisticas[3])
-        self.txtCaudalSalida.setText(estadisticas[4])
-        self.txtAvionMasEspero.setText(estadisticas[5])
+        self.txtTiempoPistaLibre.setText(str(d.truncate(estadisticas[3], 4)))
+        self.txtCaudalSalida.setText(str(d.truncate(estadisticas[4], 4)))
+        self.txtAvionMasEspero.setText(str(d.truncate(estadisticas[5], 4)))
 
-        self.txtCantAvionesDerivados.setText(estadisticas[6])
-        self.txtCantAvionesLlegaron.setText(estadisticas[7])
-        self.txtCantAvionesAterriz.setText(estadisticas[8])
+        self.txtCantAvionesDerivados.setText(str(d.truncate(estadisticas[6], 4)))
+        self.txtCantAvionesLlegaron.setText(str(d.truncate(estadisticas[7], 4)))
+        self.txtCantAvionesAterriz.setText(str(d.truncate(estadisticas[8], 4)))
