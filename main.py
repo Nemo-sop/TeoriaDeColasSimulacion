@@ -3,11 +3,13 @@ import sys
 import numpy as np
 from PyQt5.QtWidgets import QApplication
 
+import pantallaResultados
 from pantallaLogica import *
 import clases
 import distribuciones
 import bisect
 import pandas as pd
+import logicaPantallaResultados
 
 def simular(pista, colas,eventos,llegadas,aterrizajes,salidas,derivados,nuevo,normal,uniAterrizaje,uniSalidas,expNegLlegadas,capMax):
 
@@ -419,13 +421,18 @@ def principal(tiempos = (22,7,9,15,17,20),duracion = 2000,normal=(60,20),uniAter
 
 
 
-    with open("C:\\Users\\ignac\\PycharmProjects\\muestra a los chicos\\001.txt", 'w') as f:
+    with open("C:\\Users\\alexm\\Documents\\GitHub\\TeoriaDeColasSimulacion\\001.txt", 'w') as f:
         dfAsString = data.to_string(header=True, index=True)
         f.write(dfAsString)
 
-    with open("C:\\Users\\ignac\\PycharmProjects\\muestra a los chicos\\002.txt", 'w') as f:
+    with open("C:\\Users\\alexm\\Documents\\GitHub\\TeoriaDeColasSimulacion\\002.txt", 'w') as f:
         dfAsString = data2.to_string(header=True, index=True)
         f.write(dfAsString)
+
+
+    pantallaResultados = logicaPantallaResultados.PantallaResultados(data)
+
+    pantallaResultados.show()
 
 
 
