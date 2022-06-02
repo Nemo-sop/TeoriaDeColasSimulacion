@@ -164,8 +164,8 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
                 df.at[0, "aterrizajes"] = aterrizajes
                 df.at[0, "salidas"] = salidas
                 df.at[0, "derivados"] = derivados
-                df.at[0, "cola aire"] = [i.get_nombre() for i in colas['llegada']]
-                df.at[0, "cola tierra"] = [i.get_nombre() for i in colas['salida']]
+                df.at[0, "cola aire"] = ("Longitud: "+str(len(colas['llegada'])),[i.get_nombre() for i in colas['llegada']])
+                df.at[0, "cola tierra"] = ("Longitud: "+str(len(colas['salida'])),[i.get_nombre() for i in colas['salida']])
                 df.at[0, "aviones en tierra"] = aterrizajes - salidas
         else:
             df.at[0, "clk"] = clk
@@ -189,8 +189,8 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
             df.at[0, "aterrizajes"] = aterrizajes
             df.at[0, "salidas"] = salidas
             df.at[0, "derivados"] = derivados
-            df.at[0, "cola aire"] = len(colas['llegada'])
-            df.at[0, "cola tierra"] = len(colas['salida'])
+            df.at[0, "cola aire"] = ("Longitud: "+str(len(colas['llegada'])),[i.get_nombre() for i in colas['llegada']])
+            df.at[0, "cola tierra"] = ("Longitud: "+str(len(colas['salida'])),[i.get_nombre() for i in colas['salida']])
             df.at[0, "aviones en tierra"] = aterrizajes - salidas
     else:
         if tipo_evento == "insistencia":
@@ -215,8 +215,8 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
             df.at[0, "aterrizajes"] = aterrizajes
             df.at[0, "salidas"] = salidas
             df.at[0, "derivados"] = derivados
-            df.at[0, "cola aire"] = [i.get_nombre() for i in colas['llegada']]
-            df.at[0, "cola tierra"] = [i.get_nombre() for i in colas['salida']]
+            df.at[0, "cola aire"] = ("Longitud: "+str(len(colas['llegada'])),[i.get_nombre() for i in colas['llegada']])
+            df.at[0, "cola tierra"] = ("Longitud: "+str(len(colas['salida'])),[i.get_nombre() for i in colas['salida']])
             df.at[0, "aviones en tierra"] = aterrizajes - salidas
         else:
             df.at[0, "clk"] = clk
@@ -240,8 +240,8 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
             df.at[0, "aterrizajes"] = aterrizajes
             df.at[0, "salidas"] = salidas
             df.at[0, "derivados"] = derivados
-            df.at[0, "cola aire"] = [i.get_nombre() for i in colas['llegada']]
-            df.at[0, "cola tierra"] = [i.get_nombre() for i in colas['salida']]
+            df.at[0, "cola aire"] = ("Longitud: "+str(len(colas['llegada'])), [i.get_nombre() for i in colas['llegada']])
+            df.at[0, "cola tierra"] = ("Longitud: "+str(len(colas['salida'])),[i.get_nombre() for i in colas['salida']])
             df.at[0, "aviones en tierra"] = aterrizajes - salidas
     eventos.remove(eventos[0])
 
@@ -307,7 +307,7 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
             prueba = 0
         anterior = clk
 
-        if prueba == 200:
+        if prueba == 100:
             resultado = "Reiniciar..."
     resultado = "Completado..."
 
