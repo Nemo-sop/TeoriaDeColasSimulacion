@@ -327,13 +327,17 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
     estadisticos[0] = promedioPermanencia
 
     # porcentaje permanencia en tierra -> Cola
+    tiemposEsperaTierra = data2["tiempo espera en tierra"]
 
-    """
-      Esto no anda porque falta calcular bien el tiempo espera tierra total
-    """
+    sumaTiempos = 0
+
+    for i in range(1, len(tiemposEsperaTierra)):
+        sumaTiempos += tiemposEsperaTierra[i]
 
     cantAviones = len(data2["avion"]) - 1
-    porcentajePermanencia = (float(data2.loc[data2.index[-1], "tiempo espera tierra total"]) / cantAviones) * 100
+    porcentajePermanencia = (cantAviones / sumaTiempos) * 100
+
+    estadisticos[1] = porcentajePermanencia
 
     estadisticos[1] = porcentajePermanencia
 
@@ -357,23 +361,6 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
     caudalSalida = data.loc[data.index[-1], "salidas"]
 
     estadisticos[4] = caudalSalida
-
-    # tiempo del avión que más esperó -> Cliente
-    """
-    Esto no anda
-    """
-
-    todosLosTiemposEsperaTierra = data2["tiempo espera en tierra"]
-    todosLosTiemposEsperaEnAire = data2["tiempo espera en aire"]
-    sumaTiemposEspera = 0
-    mayorTiempoEspera = 0
-
-    for i in range(len(data2["tiempo espera en tierra"]) - 1):
-        sumaTiemposEspera = todosLosTiemposEsperaEnAire[i] + todosLosTiemposEsperaTierra[i]
-        mayorTiempoEspera = max(sumaTiemposEspera, mayorTiempoEspera)
-
-    estadisticos[5] = mayorTiempoEspera
-
 
     # cantidad aviones derivados -> Cliente
     cantDerivados = data.loc[data.index[-1], "derivados"]

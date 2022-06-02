@@ -70,7 +70,6 @@ class PantallaIngreso(QMainWindow):
 
         self.txtTiempoPistaLibre.setText(str(d.truncate(estadisticas[3], 4)))
         self.txtCaudalSalida.setText(str(d.truncate(estadisticas[4], 4)))
-        self.txtAvionMasEspero.setText(str(d.truncate(estadisticas[5], 4)))
 
         self.txtCantAvionesDerivados.setText(str(d.truncate(estadisticas[6], 4)))
         self.txtCantAvionesLlegaron.setText(str(d.truncate(estadisticas[7], 4)))
