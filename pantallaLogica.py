@@ -29,7 +29,7 @@ class PantallaIngreso(QMainWindow):
                       [float(self.aDespegue.text()), float(self.bDespegue.text())],
                       float(self.mediaExpo.text()),
                       int(self.capMax.text()),
-                      int(self.txtIncioFilas.text()))
+                      int(self.txtInicioFilas.text()))
 
     def cargarResultados(self, datos, estadisticas):
         self.cargarTabla(datos)
