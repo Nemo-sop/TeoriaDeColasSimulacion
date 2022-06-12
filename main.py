@@ -140,6 +140,9 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
     else:
         print("aca hiciste un estado mal")
 
+
+
+
     if tipo_evento == "fin estacion":
 
         if len(colas["salida"]) != 0:
@@ -249,7 +252,7 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
 
 
 def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(60, 20),
-              uniAterrizaje=(3, 5), uniSalidas=(4, 7), expNegLlegadas=10, capMax=200):
+              uniAterrizaje=(3, 5), uniSalidas=(4, 7), expNegLlegadas=10, capMax=200, inicio=0):
     tiempo_total = duracion
 
     actual = clases.Avion("en aire", tiempos[0], normal=normal, aterrizaje=uniAterrizaje, despegue=uniSalidas)
@@ -299,7 +302,7 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
         data = pd.concat([data, fila], ignore_index=True)
         data2 = pd.concat([data2, fila2], ignore_index=True)
 
-        print(clk, anterior, prueba)
+        #print(clk, anterior, prueba)
 
         if clk == anterior:
             prueba += 1
@@ -307,8 +310,9 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
             prueba = 0
         anterior = clk
 
-        if prueba == 100:
+        if prueba >= 100:
             resultado = "Reiniciar..."
+
     resultado = "Completado..."
 
     if resultado == "Reiniciar...":
