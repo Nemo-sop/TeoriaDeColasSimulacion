@@ -29,20 +29,25 @@ class PantallaIngreso(QMainWindow):
                       [float(self.aDespegue.text()), float(self.bDespegue.text())],
                       float(self.mediaExpo.text()),
                       int(self.capMax.text()),
-                      int(self.txtIncioFilas.text()))
+                      int(self.txInicioFilas.text()))
 
     def cargarResultados(self, datos, estadisticas):
         self.cargarTabla(datos)
-
         self.cargarEstadisticas(estadisticas)
 
     def cargarTabla(self, datos):
         fila = 0
+        inicio = int(self.txInicioFilas.text())
 
         cantFilas = len(datos)
-        self.tablaResultados.setRowCount(cantFilas)
+        self.tablaResultados.setRowCount(401)
 
-        for i in range(cantFilas):
+        if cantFilas < 400:
+            final = cantFilas
+        else:
+            final = 400+inicio
+
+        for i in range(inicio, final):
             self.tablaResultados.setItem(fila, 0, QTableWidgetItem(str(distribuciones.truncate(datos.at[i, "clk"], 4))))
             self.tablaResultados.setItem(fila, 1, QTableWidgetItem(str(datos.at[i, "tipo"])))
             self.tablaResultados.setItem(fila, 2, QTableWidgetItem(str(datos.at[i, "avion"])))
@@ -63,6 +68,26 @@ class PantallaIngreso(QMainWindow):
             self.tablaResultados.setItem(fila, 15, QTableWidgetItem(str(datos.at[i, "aviones en tierra"])))
 
             fila = fila + 1
+        if not (cantFilas < 400):
+
+            self.tablaResultados.setItem(fila, 0, QTableWidgetItem(str(distribuciones.truncate(datos.at[(cantFilas-1), "clk"], 4))))
+            self.tablaResultados.setItem(fila, 1, QTableWidgetItem(str(datos.at[(cantFilas-1), "tipo"])))
+            self.tablaResultados.setItem(fila, 2, QTableWidgetItem(str(datos.at[(cantFilas-1), "avion"])))
+            self.tablaResultados.setItem(fila, 3, QTableWidgetItem(str(distribuciones.truncate(
+                datos.at[(cantFilas-1), "tiempo hasta la prox llegada"], 4))))
+            self.tablaResultados.setItem(fila, 4, QTableWidgetItem(str(datos.at[(cantFilas-1), "prox llegada"])))
+            self.tablaResultados.setItem(fila, 5, QTableWidgetItem(str(datos.at[(cantFilas-1), "proximo avion que sale"])))
+            self.tablaResultados.setItem(fila, 6, QTableWidgetItem(str(datos.at[(cantFilas-1), "estado pista"])))
+            self.tablaResultados.setItem(fila, 7, QTableWidgetItem(str(datos.at[(cantFilas-1), "usada por"])))
+            self.tablaResultados.setItem(fila, 8, QTableWidgetItem(str(distribuciones.truncate(
+                datos.at[(cantFilas-1), "porcentaje ocupacion"], 4))))
+            self.tablaResultados.setItem(fila, 9, QTableWidgetItem(str(datos.at[(cantFilas-1), "llegadas"])))
+            self.tablaResultados.setItem(fila, 10, QTableWidgetItem(str(datos.at[(cantFilas-1), "aterrizajes"])))
+            self.tablaResultados.setItem(fila, 11, QTableWidgetItem(str(datos.at[(cantFilas-1), "salidas"])))
+            self.tablaResultados.setItem(fila, 12, QTableWidgetItem(str(datos.at[(cantFilas-1), "derivados"])))
+            self.tablaResultados.setItem(fila, 13, QTableWidgetItem(str(datos.at[(cantFilas-1), "cola aire"])))
+            self.tablaResultados.setItem(fila, 14, QTableWidgetItem(str(datos.at[(cantFilas-1), "cola tierra"])))
+            self.tablaResultados.setItem(fila, 15, QTableWidgetItem(str(datos.at[(cantFilas-1), "aviones en tierra"])))
 
     def cargarEstadisticas(self, estadisticas):
         self.txtTiempoPromedioPermSistema.setText(str(d.truncate(estadisticas[0], 4)))
