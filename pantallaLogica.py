@@ -68,6 +68,7 @@ class PantallaIngreso(QMainWindow):
             self.tablaResultados.setItem(fila, 15, QTableWidgetItem(str(datos.at[i, "aviones en tierra"])))
 
             fila = fila + 1
+
         if not (cantFilas < 400):
 
             self.tablaResultados.setItem(fila, 0, QTableWidgetItem(str(distribuciones.truncate(datos.at[(cantFilas-1), "clk"], 4))))
