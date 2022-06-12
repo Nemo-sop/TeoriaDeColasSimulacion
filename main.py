@@ -339,7 +339,10 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
         sumaTiempos += tiemposEsperaTierra[i]
 
     cantAviones = len(data2["avion"]) - 1
-    porcentajePermanencia = (cantAviones / sumaTiempos) * 100
+    if sumaTiempos != 0:
+        porcentajePermanencia = (cantAviones / sumaTiempos) * 100
+    else:
+        porcentajePermanencia = 0
 
     estadisticos[1] = porcentajePermanencia
 

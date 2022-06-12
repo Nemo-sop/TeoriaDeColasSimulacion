@@ -434,7 +434,7 @@
   <property name="font">
    <font>
     <family>Berlin Sans FB</family>
-    <pointsize>10</pointsize>
+    <pointsize>9</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -504,7 +504,7 @@
       <rect>
        <x>18</x>
        <y>36</y>
-       <width>192</width>
+       <width>231</width>
        <height>21</height>
       </rect>
      </property>
@@ -530,7 +530,7 @@
       <rect>
        <x>18</x>
        <y>196</y>
-       <width>192</width>
+       <width>231</width>
        <height>17</height>
       </rect>
      </property>
@@ -556,7 +556,7 @@
       <rect>
        <x>20</x>
        <y>60</y>
-       <width>192</width>
+       <width>231</width>
        <height>29</height>
       </rect>
      </property>
@@ -569,7 +569,7 @@
       <rect>
        <x>20</x>
        <y>100</y>
-       <width>192</width>
+       <width>231</width>
        <height>16</height>
       </rect>
      </property>
@@ -595,7 +595,7 @@
       <rect>
        <x>18</x>
        <y>156</y>
-       <width>192</width>
+       <width>231</width>
        <height>31</height>
       </rect>
      </property>
@@ -621,7 +621,7 @@
       <rect>
        <x>18</x>
        <y>126</y>
-       <width>192</width>
+       <width>231</width>
        <height>21</height>
       </rect>
      </property>
@@ -724,7 +724,7 @@
        <rect>
         <x>30</x>
         <y>100</y>
-        <width>221</width>
+        <width>281</width>
         <height>31</height>
        </rect>
       </property>
@@ -763,7 +763,7 @@
        <rect>
         <x>30</x>
         <y>57</y>
-        <width>201</width>
+        <width>251</width>
         <height>31</height>
        </rect>
       </property>
@@ -789,7 +789,7 @@
        <rect>
         <x>30</x>
         <y>130</y>
-        <width>211</width>
+        <width>281</width>
         <height>31</height>
        </rect>
       </property>
@@ -839,7 +839,7 @@
      <widget class="QLabel" name="label_22">
       <property name="geometry">
        <rect>
-        <x>250</x>
+        <x>270</x>
         <y>60</y>
         <width>81</width>
         <height>21</height>
@@ -904,9 +904,9 @@
      <widget class="QLabel" name="label_24">
       <property name="geometry">
        <rect>
-        <x>280</x>
+        <x>340</x>
         <y>100</y>
-        <width>81</width>
+        <width>51</width>
         <height>21</height>
        </rect>
       </property>
@@ -943,9 +943,9 @@
      <widget class="QLabel" name="label_27">
       <property name="geometry">
        <rect>
-        <x>280</x>
+        <x>340</x>
         <y>140</y>
-        <width>81</width>
+        <width>51</width>
         <height>21</height>
        </rect>
       </property>
@@ -985,7 +985,7 @@
       <rect>
        <x>70</x>
        <y>250</y>
-       <width>121</width>
+       <width>171</width>
        <height>16</height>
       </rect>
      </property>
@@ -998,7 +998,7 @@
       <rect>
        <x>430</x>
        <y>260</y>
-       <width>121</width>
+       <width>181</width>
        <height>21</height>
       </rect>
      </property>
@@ -1016,7 +1016,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>10</string>
+      <string>0</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_32">
@@ -1227,7 +1227,7 @@
     <widget class="QLineEdit" name="txtTiempoPromedioPermSistema">
      <property name="geometry">
       <rect>
-       <x>280</x>
+       <x>320</x>
        <y>260</y>
        <width>139</width>
        <height>24</height>
@@ -1253,8 +1253,8 @@
     <widget class="QLineEdit" name="txtPorcPromedioPermTierra">
      <property name="geometry">
       <rect>
-       <x>280</x>
-       <y>310</y>
+       <x>320</x>
+       <y>300</y>
        <width>139</width>
        <height>24</height>
       </rect>
@@ -1281,7 +1281,7 @@
       <rect>
        <x>20</x>
        <y>260</y>
-       <width>261</width>
+       <width>301</width>
        <height>21</height>
       </rect>
      </property>
@@ -1331,7 +1331,7 @@
     <widget class="QLineEdit" name="txtPorcOcupacionPista">
      <property name="geometry">
       <rect>
-       <x>280</x>
+       <x>320</x>
        <y>350</y>
        <width>139</width>
        <height>24</height>
@@ -1357,7 +1357,7 @@
     <widget class="QLabel" name="label_19">
      <property name="geometry">
       <rect>
-       <x>500</x>
+       <x>510</x>
        <y>220</y>
        <width>171</width>
        <height>41</height>
@@ -1392,9 +1392,9 @@
     <widget class="QLabel" name="label_21">
      <property name="geometry">
       <rect>
-       <x>850</x>
+       <x>820</x>
        <y>250</y>
-       <width>181</width>
+       <width>261</width>
        <height>31</height>
       </rect>
      </property>
@@ -1418,9 +1418,9 @@
     <widget class="QLabel" name="label_29">
      <property name="geometry">
       <rect>
-       <x>850</x>
+       <x>820</x>
        <y>300</y>
-       <width>181</width>
+       <width>261</width>
        <height>31</height>
       </rect>
      </property>
@@ -1444,9 +1444,9 @@
     <widget class="QLabel" name="label_30">
      <property name="geometry">
       <rect>
-       <x>850</x>
+       <x>820</x>
        <y>350</y>
-       <width>181</width>
+       <width>261</width>
        <height>31</height>
       </rect>
      </property>
