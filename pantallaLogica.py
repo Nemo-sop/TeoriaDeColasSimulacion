@@ -28,7 +28,8 @@ class PantallaIngreso(QMainWindow):
                       [float(self.aAterrizaje.text()), float(self.bAterrizaje.text())],
                       [float(self.aDespegue.text()), float(self.bDespegue.text())],
                       float(self.mediaExpo.text()),
-                      int(self.capMax.text()))
+                      int(self.capMax.text()),
+                      int(self.txtIncioFilas.text()))
 
     def cargarResultados(self, datos, estadisticas):
         self.cargarTabla(datos)
