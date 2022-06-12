@@ -1006,7 +1006,7 @@
       <string>Mostrar desde la fila...</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="txInicioFilas">
+    <widget class="QLineEdit" name="txtInicioFilas">
      <property name="geometry">
       <rect>
        <x>610</x>
@@ -1049,7 +1049,7 @@
     <zorder>capMax</zorder>
     <zorder>label_12</zorder>
     <zorder>label_31</zorder>
-    <zorder>txInicioFilas</zorder>
+    <zorder>txtInicioFilas</zorder>
     <zorder>label_32</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
