@@ -1,43 +1,25 @@
-import PyQt5
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
-from main import *
-import distribuciones as d
+
+import distribuciones
 
 
-class PantallaIngreso(QMainWindow):
+class PantallaResultados(QMainWindow):
     """Incializar clase"""
 
     def __init__(self):
         super().__init__()
 
         """Cargar la GUI"""
-        uic.loadUi("pantalla.ui", self)
+        uic.loadUi("pantallaResultados.ui", self)
+        print("Hello World!")
 
-        self.start.clicked.connect(self.metodoAuxiliar)
-
-    def metodoAuxiliar(self):
-
-        if self.duracion.text() != "":
-            principal(self,
-                      [int(self.tiempoPrimeraLlegada.text()), int(self.permanencia1.text()),
-                       int(self.permanencia2.text()),
-                       int(self.permanencia3.text()), int(self.permanencia4.text()), int(self.permanencia5.text())],
-                      int(self.duracion.text()),
-                      [float(self.media.text()), float(self.dsvStd.text())],
-                      [float(self.aAterrizaje.text()), float(self.bAterrizaje.text())],
-                      [float(self.aDespegue.text()), float(self.bDespegue.text())],
-                      float(self.mediaExpo.text()),
-                      int(self.capMax.text()),
-                      int(self.txInicioFilas.text()))
-
-    def cargarResultados(self, datos, estadisticas):
-        self.cargarTabla(datos)
+    def mostrarResultados(self, datos, estadisticas, inicio):
+        self.cargarTabla(datos, inicio)
         self.cargarEstadisticas(estadisticas)
 
-    def cargarTabla(self, datos):
+    def cargarTabla(self, datos, inicio):
         fila = 0
-        inicio = int(self.txInicioFilas.text())
 
         cantFilas = len(datos)
         self.tablaResultados.setRowCount(401)
@@ -45,7 +27,7 @@ class PantallaIngreso(QMainWindow):
         if cantFilas < 400:
             final = cantFilas
         else:
-            final = 400+inicio
+            final = 400 + inicio
 
         for i in range(inicio, final):
             self.tablaResultados.setItem(fila, 0, QTableWidgetItem(str(distribuciones.truncate(datos.at[i, "clk"], 4))))
@@ -91,13 +73,13 @@ class PantallaIngreso(QMainWindow):
             self.tablaResultados.setItem(fila, 15, QTableWidgetItem(str(datos.at[(cantFilas-1), "aviones en tierra"])))
 
     def cargarEstadisticas(self, estadisticas):
-        self.txtTiempoPromedioPermSistema.setText(str(d.truncate(estadisticas[0], 4)))
-        self.txtPorcPromedioPermTierra.setText(str(d.truncate(estadisticas[1], 4)))
-        self.txtPorcOcupacionPista.setText(str(d.truncate(estadisticas[2], 4)))
+        self.txtTiempoPromedioPermSistema.setText(str(distribuciones.truncate(estadisticas[0], 4)))
+        self.txtPorcPromedioPermTierra.setText(str(distribuciones.truncate(estadisticas[1], 4)))
+        self.txtPorcOcupacionPista.setText(str(distribuciones.truncate(estadisticas[2], 4)))
 
-        self.txtTiempoPistaLibre.setText(str(d.truncate(estadisticas[3], 4)))
-        self.txtCaudalSalida.setText(str(d.truncate(estadisticas[4], 4)))
+        self.txtTiempoPistaLibre.setText(str(distribuciones.truncate(estadisticas[3], 4)))
+        self.txtCaudalSalida.setText(str(distribuciones.truncate(estadisticas[4], 4)))
 
-        self.txtCantAvionesDerivados.setText(str(d.truncate(estadisticas[6], 4)))
-        self.txtCantAvionesLlegaron.setText(str(d.truncate(estadisticas[7], 4)))
-        self.txtCantAvionesAterriz.setText(str(d.truncate(estadisticas[8], 4)))
+        self.txtCantAvionesDerivados.setText(str(distribuciones.truncate(estadisticas[6], 4)))
+        self.txtCantAvionesLlegaron.setText(str(distribuciones.truncate(estadisticas[7], 4)))
+        self.txtCantAvionesAterriz.setText(str(distribuciones.truncate(estadisticas[8], 4)))

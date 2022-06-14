@@ -7,13 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>1324</width>
-    <height>785</height>
+    <height>400</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1324</width>
+    <height>400</height>
+   </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1324</width>
-    <height>861</height>
+    <height>400</height>
    </size>
   </property>
   <property name="palette">
@@ -437,8 +443,11 @@
     <pointsize>9</pointsize>
    </font>
   </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
-   <string>Simulación Control de Aviones</string>
+   <string>Ingreso Datos - Simulación Control de Aviones</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -642,7 +651,7 @@
       <string>15</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="start">
+    <widget class="QPushButton" name="btnSimular">
      <property name="geometry">
       <rect>
        <x>1100</x>
@@ -1045,422 +1054,37 @@
     <zorder>permanencia4</zorder>
     <zorder>label_3</zorder>
     <zorder>permanencia3</zorder>
-    <zorder>start</zorder>
+    <zorder>btnSimular</zorder>
     <zorder>capMax</zorder>
     <zorder>label_12</zorder>
     <zorder>label_31</zorder>
     <zorder>txtInicioFilas</zorder>
     <zorder>label_32</zorder>
    </widget>
-   <widget class="QGroupBox" name="groupBox_3">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>370</y>
-      <width>1261</width>
-      <height>391</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Resultados</string>
-    </property>
-    <widget class="QTableWidget" name="tablaResultados">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>50</y>
-       <width>1221</width>
-       <height>171</height>
-      </rect>
-     </property>
-     <property name="palette">
-      <palette>
-       <active>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>234</red>
-           <green>245</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </active>
-       <inactive>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>234</red>
-           <green>245</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </inactive>
-       <disabled>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>234</red>
-           <green>245</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>234</red>
-           <green>245</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </disabled>
-      </palette>
-     </property>
-     <property name="autoScrollMargin">
-      <number>16</number>
-     </property>
-     <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>150</number>
-     </attribute>
-     <column>
-      <property name="text">
-       <string>Reloj</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Evento</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Avion</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Tiempo Hasta Prox. Llegada</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Prox. Llegada</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Proximo Avion Sale</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Estado Pista</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Usada Por</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Porcentaje Ocup.</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Llegadas</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Aterrizajes</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Salidas</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Derivados</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Cola Aire</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Cola Tierra</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Aviones en Tierra</string>
-      </property>
-     </column>
-    </widget>
-    <widget class="QLineEdit" name="txtTiempoPromedioPermSistema">
-     <property name="geometry">
-      <rect>
-       <x>320</x>
-       <y>260</y>
-       <width>139</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="txtCaudalSalida">
-     <property name="geometry">
-      <rect>
-       <x>670</x>
-       <y>300</y>
-       <width>139</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="txtPorcPromedioPermTierra">
-     <property name="geometry">
-      <rect>
-       <x>320</x>
-       <y>300</y>
-       <width>139</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="txtTiempoPistaLibre">
-     <property name="geometry">
-      <rect>
-       <x>670</x>
-       <y>260</y>
-       <width>139</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_14">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>260</y>
-       <width>301</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Tiempo Promedio de Permanencia: </string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_15">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>310</y>
-       <width>261</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Porcentaje Permanencia en Tierra </string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_18">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>355</y>
-       <width>281</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Porcentaje Ocupación de la Pista</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_16">
-     <property name="geometry">
-      <rect>
-       <x>470</x>
-       <y>250</y>
-       <width>181</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Tiempo de la Pista Libre</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="txtPorcOcupacionPista">
-     <property name="geometry">
-      <rect>
-       <x>320</x>
-       <y>350</y>
-       <width>139</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_17">
-     <property name="geometry">
-      <rect>
-       <x>470</x>
-       <y>295</y>
-       <width>181</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Caudal de Salida</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_19">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>220</y>
-       <width>171</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Berlin Sans FB</family>
-       <pointsize>15</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-       <underline>true</underline>
-      </font>
-     </property>
-     <property name="text">
-      <string>Estadísticos</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="txtCantAvionesDerivados">
-     <property name="geometry">
-      <rect>
-       <x>1080</x>
-       <y>250</y>
-       <width>139</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_21">
-     <property name="geometry">
-      <rect>
-       <x>820</x>
-       <y>250</y>
-       <width>261</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Cantidad aviones derivados</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="txtCantAvionesLlegaron">
-     <property name="geometry">
-      <rect>
-       <x>1080</x>
-       <y>300</y>
-       <width>139</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_29">
-     <property name="geometry">
-      <rect>
-       <x>820</x>
-       <y>300</y>
-       <width>261</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Cantidad aviones que llegaron</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="txtCantAvionesAterriz">
-     <property name="geometry">
-      <rect>
-       <x>1080</x>
-       <y>350</y>
-       <width>139</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_30">
-     <property name="geometry">
-      <rect>
-       <x>820</x>
-       <y>350</y>
-       <width>261</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Cantidad aviones aterrizados</string>
-     </property>
-    </widget>
-   </widget>
-   <zorder>groupBox_3</zorder>
    <zorder>groupBox</zorder>
    <zorder>label_13</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>tiempoPrimeraLlegada</tabstop>
+  <tabstop>permanencia1</tabstop>
+  <tabstop>permanencia2</tabstop>
+  <tabstop>permanencia3</tabstop>
+  <tabstop>permanencia4</tabstop>
+  <tabstop>permanencia5</tabstop>
+  <tabstop>capMax</tabstop>
+  <tabstop>duracion</tabstop>
+  <tabstop>media</tabstop>
+  <tabstop>dsvStd</tabstop>
+  <tabstop>aAterrizaje</tabstop>
+  <tabstop>bAterrizaje</tabstop>
+  <tabstop>aDespegue</tabstop>
+  <tabstop>bDespegue</tabstop>
+  <tabstop>mediaExpo</tabstop>
+  <tabstop>txtInicioFilas</tabstop>
+  <tabstop>btnSimular</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -4,17 +4,18 @@ import time
 import numpy as np
 from PyQt5.QtWidgets import QApplication
 
-from pantallaLogica import *
+from LogicaPantallaIngreso import *
 import clases
 import distribuciones
 import bisect
 import pandas as pd
 import numpy as np
 
+
 def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nuevo, normal, uniAterrizaje,
             uniSalidas, expNegLlegadas, capMax):
-    df = pd.DataFrame({"clk": [], "tipo": []
-                          , "avion": [], "tiempo hasta la prox llegada": [], "prox llegada": [],
+    df = pd.DataFrame({"clk": [], "tipo": [],
+                       "avion": [], "tiempo hasta la prox llegada": [], "prox llegada": [],
                        "proximo avion que sale": [], "estado pista": [], "usada por": [], "porcentaje ocupacion": [],
                        "llegadas": [], "aterrizajes": [], "salidas": [], "derivados": [],
                        "cola aire": [], "cola tierra": [], "aviones en tierra": []}, dtype=object)
@@ -141,7 +142,8 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
         print("aca hiciste un estado mal")
 
     extra = " "
-    #para mostrar el tiempo q va a demorar el avion en llegar al nuevo evento
+
+    # para mostrar el tiempo q va a demorar el avion en llegar al nuevo evento
     if tipo_evento == "llegada":
         extra += " (tiempo que demora en aterrizar: " + str(round(eventos[0].get_avion().get_demora_aterrizar(),4)) + ")"
     elif tipo_evento == "insistencia":
@@ -152,13 +154,6 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
         extra += " (tiempo que demora en terminar el mantenimiento: " + str(round(eventos[0].get_avion().get_demora_estacion(),4)) + ")"
     elif tipo_evento == "fin despegue":
         extra += ""
-
-
-
-
-
-
-
 
     if tipo_evento == "fin estacion":
 
@@ -271,7 +266,6 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
 def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(60, 20),
               uniAterrizaje=(3, 5), uniSalidas=(4, 7), expNegLlegadas=10, capMax=200, inicio=0):
     tiempo_total = duracion
-
 
     actual = clases.Avion("en aire", tiempos[0], normal=normal, aterrizaje=uniAterrizaje, despegue=uniSalidas)
     eventos = [clases.Evento("llegada", actual, actual.get_tiempo_llegada())]
@@ -425,7 +419,7 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
     # # if not data.empty:
     # #     dataMuestra.loc[len(dataMuestra.index)] = data.iloc[-1]
 
-    pantalla.cargarResultados(data, estadisticos)
+    pantalla.mostrarResultados(data, estadisticos, inicio)
 
 
 if __name__ == "__main__":
