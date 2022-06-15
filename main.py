@@ -3,6 +3,7 @@ import time
 
 import numpy as np
 from PyQt5.QtWidgets import QApplication
+from random import random, Random
 
 from LogicaPantallaIngreso import *
 import clases
@@ -10,12 +11,14 @@ import distribuciones
 import bisect
 import pandas as pd
 import numpy as np
+from RungeKutta import *
+import random
 
 
 def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nuevo, normal, uniAterrizaje,
-            uniSalidas, expNegLlegadas, capMax):
-    df = pd.DataFrame({"clk": [], "tipo": [],
-                       "avion": [], "tiempo hasta la prox llegada": [], "prox llegada": [],
+            uniSalidas, expNegLlegadas, capMax, probAtaqueLlegadas, ataqueLlegadas, estabaOcupadaLaPista):
+    df = pd.DataFrame({"clk": [], "tipo": []
+                          , "avion": [], "tiempo hasta la prox llegada": [], "prox llegada": [], "proximo ataque":[], "objetivo del ataque":[],
                        "proximo avion que sale": [], "estado pista": [], "usada por": [], "porcentaje ocupacion": [],
                        "llegadas": [], "aterrizajes": [], "salidas": [], "derivados": [],
                        "cola aire": [], "cola tierra": [], "aviones en tierra": []}, dtype=object)
@@ -23,6 +26,9 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
         "avion": [], "tiempo espera en tierra": [], "tiempo espera en aire": [], "demora aterrizaje": []
         , "demora despegue": [], "tiempo espera aire total": [], "tiempo espera tierra total": []
     }, dtype=object)
+
+    avionNulo = clases.Avion(None, 0, 0, 0, (1,1), (1,1), (1,1))
+    avionNulo.set_nombre("n/a")
 
     tipo_evento = eventos[0].get_tipo()
     clk = eventos[0].get_tiempo()
@@ -48,6 +54,17 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
                 if not (eventos[0].get_avion() in colas["llegada"]):
                     colas["llegada"].append(eventos[0].get_avion())
 
+            elif pista.get_estado() == "atacada":
+                eventos[0].get_avion().set_estado("en aire")
+                eventos[0].get_avion().agregar_aire(pista.get_tiempo_ataque())
+
+                event = clases.Evento("insistencia", eventos[0].get_avion(), pista.get_tiempo_ataque() + clk)
+                bisect.insort_right(eventos, event)
+
+                if not (eventos[0].get_avion() in colas["llegada"]):
+                    colas["llegada"].append(eventos[0].get_avion())
+
+
             else:
                 eventos[0].get_avion().set_estado("aterrizando")
                 pista.ocupar(eventos[0].get_avion(), eventos[0].get_avion().get_demora_aterrizar() + clk, clk)
@@ -70,6 +87,12 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
             event = clases.Evento("fin aterrizaje", eventos[0].get_avion(),
                                   clk + eventos[0].get_avion().get_demora_aterrizar())
             bisect.insort_right(eventos, event)
+
+        elif pista.get_estado() == "atacada":
+
+            event = clases.Evento("insistencia", eventos[0].get_avion(), pista.get_tiempo_ataque()+clk)
+            bisect.insort_right(eventos, event)
+
         else:
             event = clases.Evento("insistencia", eventos[0].get_avion(), pista.get_tmp_ocup())
             bisect.insort_right(eventos, event)
@@ -96,6 +119,16 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
                 if not (eventos[0].get_avion() in colas["salida"]):
                     colas["salida"].append(eventos[0].get_avion())
 
+
+        elif pista.get_estado() == "atacada":
+            event = clases.Evento("fin estacion", eventos[0].get_avion(), clk+ pista.get_tiempo_ataque())
+
+            bisect.insort_left(eventos, event)
+            eventos[0].get_avion().agregar_tierra(pista.get_tiempo_ataque() - clk)
+
+            if not (eventos[0].get_avion() in colas["salida"]):
+                colas["salida"].append(eventos[0].get_avion())
+
         else:
             event = clases.Evento("fin estacion", eventos[0].get_avion(), pista.get_tmp_ocup())
 
@@ -105,15 +138,17 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
             if not (eventos[0].get_avion() in colas["salida"]):
                 colas["salida"].append(eventos[0].get_avion())
 
+
+
     elif tipo_evento == "fin aterrizaje":
         aterrizajes += 1
         event = clases.Evento("fin estacion", eventos[0].get_avion(),
                               clk + eventos[0].get_avion().get_demora_estacion())
-        bisect.insort_left(eventos, event)
-        pista.liberar()
+        bisect.insort_right(eventos, event)
 
         if len(colas["llegada"]):
             colas["llegada"].pop(0)
+
         pista.liberar()
 
     elif tipo_evento == "fin despegue":
@@ -138,12 +173,104 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
             if eventos[0].get_avion() in colas["salida"]:
                 colas["salida"].remove(eventos[0].get_avion())
 
+    elif tipo_evento == "llegada ataque":
+
+        if eventos[0].get_objetivo() == "servidor":
+
+
+            # Generar sin ataque llegadas
+            # todo agregar lo de rk
+            tiempo = calculo_RK()
+
+            finAtaque = clases.Evento("fin ataque servidor", avionNulo, clk+tiempo)
+            bisect.insort_left(eventos, finAtaque)
+
+            if pista.get_estado() == "ocupada":
+
+                avion = pista.get_avion()
+
+                for i in eventos:
+                    if i.get_avion() == avion:
+                        eventoARegenerar = i
+                        break
+
+                eventos.remove(eventoARegenerar)
+                eventoARegenerar.set_tiempo(eventoARegenerar.get_tiempo()+tiempo)
+                bisect.insort_left(eventos, eventoARegenerar)
+                estabaOcupadaLaPista = True
+
+
+            else:
+                estabaOcupadaLaPista = False
+
+            pista.set_estado("atacada")
+            pista.set_tiempo_ataque(tiempo)
+
+            print(pista.get_estado())
+
+
+
+
+
+        else:
+            ataqueLlegadas = True
+            # Generar fin ataque llegadas
+            # todo agregar lo de rk
+            tiempo = calculo_RK()
+
+            finAtaque = clases.Evento("fin ataque llegadas", avionNulo, tiempo+clk)
+            bisect.insort_left(eventos, finAtaque)
+
+
+
+    elif tipo_evento == "fin ataque servidor":
+        #Generar nuevo ataque
+        #todo agregar lo de rk
+        tiempo = calculo_RK()
+
+        rnd = random.random()
+        if rnd*10 < probAtaqueLlegadas:
+            objetivo = "llegadas"
+        else:
+            objetivo = "servidor"
+
+
+        proxAtaque = clases.Evento("llegada ataque", avionNulo, tiempo+clk, objetivo=objetivo)
+        bisect.insort_left(eventos, proxAtaque)
+
+        if estabaOcupadaLaPista:
+            pista.set_estado("ocupada")
+        else:
+            pista.set_estado("libre")
+
+
+
+
+    elif tipo_evento == "fin ataque llegadas":
+        #Generar nuevo ataque
+        #todo agregar lo de rk
+        tiempo = calculo_RK()
+
+        rnd = random.random()
+        if (rnd*10) < probAtaqueLlegadas:
+            objetivo = "llegadas"
+        else:
+            objetivo = "servidor"
+
+
+        proxAtaque = clases.Evento("llegada ataque", avionNulo, tiempo+clk, objetivo=objetivo)
+        bisect.insort_left(eventos, proxAtaque)
+
+        ataqueLlegadas = False
+
+
     else:
         print("aca hiciste un estado mal")
 
-    extra = " "
 
-    # para mostrar el tiempo q va a demorar el avion en llegar al nuevo evento
+
+    extra = " "
+    #para mostrar el tiempo q va a demorar el avion en llegar al nuevo evento
     if tipo_evento == "llegada":
         extra += " (tiempo que demora en aterrizar: " + str(round(eventos[0].get_avion().get_demora_aterrizar(),4)) + ")"
     elif tipo_evento == "insistencia":
@@ -164,6 +291,11 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
                 df.at[0, "avion"] = eventos[0].get_avion().get_nombre()
                 df.at[0, "tiempo hasta la prox llegada"] = nuevo.get_tiempo_llegada() - clk
                 df.at[0, "prox llegada"] = (nuevo.get_nombre(), nuevo.get_tiempo_llegada())
+
+                df.at[0, "proximo ataque"] = 0
+                df.at[0, "objetivo del ataque"] = eventos[0].get_objetivo()
+                df.at[0, "duracion del ataque"] = 0
+
                 if len(colas["salida"]) == 0:
                     df.at[0, "proximo avion que sale"] = "n/a"
                 else:
@@ -188,6 +320,11 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
             df.at[0, "avion"] = eventos[0].get_avion().get_nombre()
             df.at[0, "tiempo hasta la prox llegada"] = nuevo.get_tiempo_llegada() - clk
             df.at[0, "prox llegada"] = (nuevo.get_nombre(), nuevo.get_tiempo_llegada())
+
+            df.at[0, "proximo ataque"] = 0
+            df.at[0, "objetivo del ataque"] = eventos[0].get_objetivo()
+            df.at[0, "duracion del ataque"] = 0
+
             if len(colas["salida"]) == 0:
                 df.at[0, "proximo avion que sale"] = "n/a"
             else:
@@ -214,6 +351,11 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
             df.at[0, "avion"] = eventos[0].get_avion().get_nombre()
             df.at[0, "tiempo hasta la prox llegada"] = nuevo.get_tiempo_llegada() - clk
             df.at[0, "prox llegada"] = (nuevo.get_nombre(), nuevo.get_tiempo_llegada())
+
+            df.at[0, "proximo ataque"] = 0
+            df.at[0, "objetivo del ataque"] = eventos[0].get_objetivo()
+            df.at[0, "duracion del ataque"] = 0
+
             if len(colas["salida"]) == 0:
                 df.at[0, "proximo avion que sale"] = "n/a"
             else:
@@ -239,6 +381,11 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
             df.at[0, "avion"] = eventos[0].get_avion().get_nombre()
             df.at[0, "tiempo hasta la prox llegada"] = nuevo.get_tiempo_llegada() - clk
             df.at[0, "prox llegada"] = (nuevo.get_nombre(), nuevo.get_tiempo_llegada())
+
+            df.at[0, "proximo ataque"] = 0
+            df.at[0, "objetivo del ataque"] = eventos[0].get_objetivo()
+            df.at[0, "duracion del ataque"] = 0
+
             if len(colas["salida"]) == 0:
                 df.at[0, "proximo avion que sale"] = "n/a"
             else:
@@ -260,15 +407,32 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
             df.at[0, "aviones en tierra"] = aterrizajes - salidas
     eventos.remove(eventos[0])
 
-    return clk, llegadas, aterrizajes, salidas, derivados, nuevo, df, df2
+    return clk, llegadas, aterrizajes, salidas, derivados, nuevo, df, df2, ataqueLlegadas, estabaOcupadaLaPista
 
 
 def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(60, 20),
-              uniAterrizaje=(3, 5), uniSalidas=(4, 7), expNegLlegadas=10, capMax=200, inicio=0):
+              uniAterrizaje=(3, 5), uniSalidas=(4, 7), expNegLlegadas=10, capMax=200, inicio=0, probAtaqueLlegadas=1):
     tiempo_total = duracion
 
+    probAtaqueLlegadas = 1
+
     actual = clases.Avion("en aire", tiempos[0], normal=normal, aterrizaje=uniAterrizaje, despegue=uniSalidas)
+
     eventos = [clases.Evento("llegada", actual, actual.get_tiempo_llegada())]
+
+    avionNulo = clases.Avion(None, 0, 0, 0, (1,1), (1,1), (1,1))
+    avionNulo.set_nombre("n/a")
+    primerAtaque =  clases.Evento("llegada ataque", avionNulo, calculo_RK())
+
+    rnd = random.random()
+    if rnd*10 < probAtaqueLlegadas:
+        objetivo = "llegadas"
+    else:
+        objetivo = "servidor"
+
+    primerAtaque.set_objetivo(objetivo)
+    bisect.insort_right(eventos, primerAtaque)
+
 
     tiemposSalidas = [tiempos[1], tiempos[2], tiempos[3], tiempos[4], tiempos[5]]
     for i in tiemposSalidas:
@@ -278,8 +442,8 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
 
     colas = {"llegada": [], "salida": []}
 
-    clk = actual.get_tiempo_llegada() # aca por esto no simula a no ser q pongas mas de 21 min de simulacion
-
+    #clk = actual.get_tiempo_llegada() # aca por esto no simula a no ser q pongas mas de 21 min de simulacion
+    clk = 0
     pista = clases.Pista("libre")
 
     aterrizajes = 5
@@ -292,7 +456,7 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
 
     nuevo = actual
     data = pd.DataFrame({"clk": [], "tipo": []
-                            , "avion": [], "tiempo hasta la prox llegada": [], "prox llegada": [],
+                            , "avion": [], "tiempo hasta la prox llegada": [], "prox llegada": [], "proximo ataque":[], "objetivo del ataque":[],
                          "proximo avion que sale": [], "estado pista": [], "usada por": [], "porcentaje ocupacion": [],
                          "llegadas": [], "aterrizajes": [], "salidas": [], "derivados": [],
                          "cola aire": [], "cola tierra": [], "aviones en tierra": []}, dtype=object)
@@ -305,12 +469,14 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
     data2.at[0, "tiempo espera tierra total"] = 0
 
     while tiempo_total >= clk:
+        print(clk, eventos[0].get_tipo(), pista.get_estado(), len(colas["llegada"]), eventos[0].get_avion())
+        ataqueLlegadas = False
 
-        clk, llegadas, aterrizajes, salidas, derivados, nuevo, fila, fila2 = simular(pista, colas, eventos, llegadas,
+        clk, llegadas, aterrizajes, salidas, derivados, nuevo, fila, fila2, ataqueLlegadas, estabaOcupadaLaPista = simular(pista, colas, eventos, llegadas,
                                                                                      aterrizajes, salidas, derivados,
                                                                                      nuevo
                                                                                      , normal, uniAterrizaje,
-                                                                                     uniSalidas, expNegLlegadas, capMax)
+                                                                                     uniSalidas, expNegLlegadas, capMax, probAtaqueLlegadas, ataqueLlegadas, estabaOcupadaLaPista=None)
         data = pd.concat([data, fila], ignore_index=True)
         data2 = pd.concat([data2, fila2], ignore_index=True)
 
@@ -329,7 +495,7 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
 
     if resultado == "Reiniciar...":
         principal(tiempos, duracion, normal, uniAterrizaje,
-                  uniSalidas, expNegLlegadas, capMax)
+                  uniSalidas, expNegLlegadas, capMax, probAtaqueLlegadas, ataqueLlegadas, estabaOcupadaLaPista=None)
 
     # Cálculo de Estadísticos...
 

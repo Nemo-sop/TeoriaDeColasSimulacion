@@ -23,6 +23,8 @@ class Avion():
         return f"{self.__nombre.ljust(5)},t_llegada:{str(self.__tiempo_llegada).ljust(15)},t_aterrizaje:{str(self.__demora_aterrizar).ljust(15)}," \
                f"t_estacion:{str(self.__demora_estacion).ljust(15)},t_despegue:{str(self.__demora_despegar).ljust(15)}"
 
+    def set_nombre(self, nombre):
+        self.__nombre = nombre
     def get_tiempo_estacion(self):
         return self.__tiempo_en_estacion
 
@@ -61,11 +63,18 @@ class Avion():
 
 
 class Pista():
-    def __init__(self, estado, avion = None,tmp = 0):
+    def __init__(self, estado, avion = None,tmp = 0, tiempoAtaque = 0):
         self.__estado = estado
         self.__avion = avion
         self.__tiempo_ocup = tmp
         self.__suma_ocup = tmp
+        self.__tiempo_atacada = tiempoAtaque
+
+    def set_tiempo_ataque(self, tiempo):
+        self.__tiempo_atacada = tiempo
+
+    def get_tiempo_ataque(self):
+        return self.__tiempo_atacada
 
     def acum_tmp_ocup(self):
         return self.__suma_ocup
@@ -95,19 +104,30 @@ class Pista():
         self.__avion = None
         self.__tiempo_ocup = 0
 
+    def atacar(self):
+        self.__estado = "atacada"
+        self.__avion = None
+
+
 
 class Evento():
-    def __init__(self, tipo,avion,tiempo):
+    def __init__(self, tipo,avion,tiempo, objetivo="n/a"):
         self.__tiempo = tiempo
         self.__avion = avion
         self.__tipo = tipo
+        self.__objetivo = objetivo
 
     def __lt__(self, other):
         return self.__tiempo < other.get_tiempo()
     def __gt__(self, other):
         return self.__tiempo > other.get_tiempo()
 
-        
+    def get_objetivo(self):
+        return self.__objetivo
+
+    def set_objetivo(self, objetivo):
+        self.__objetivo = objetivo
+
     def get_tipo(self):
         return self.__tipo
 
