@@ -15,8 +15,9 @@ from RungeKutta import *
 import random
 
 
-def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nuevo, normal, uniAterrizaje,
+def simular(RungeKuttas, pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nuevo, normal, uniAterrizaje,
             uniSalidas, expNegLlegadas, capMax, probAtaqueLlegadas, ataqueLlegadas, estabaOcupadaLaPista):
+    RKControlador = Controlador()
     df = pd.DataFrame({"clk": [], "tipo": []
                           , "avion": [], "tiempo hasta la prox llegada": [], "prox llegada": [], "proximo ataque":[], "objetivo del ataque":[],
                        "proximo avion que sale": [], "estado pista": [], "usada por": [], "porcentaje ocupacion": [],
@@ -178,9 +179,9 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
         if eventos[0].get_objetivo() == "servidor":
 
 
-            # Generar sin ataque llegadas
-            # todo agregar lo de rk
-            tiempo = calculo_RK()
+            tiempo, dfDuracionServidor = RKControlador.calcularRKDuracionAtaqueServidores(clk)
+
+            RungeKuttas[1].append(dfDuracionServidor)
 
             finAtaque = clases.Evento("fin ataque servidor", avionNulo, clk+tiempo)
             bisect.insort_left(eventos, finAtaque)
@@ -208,26 +209,18 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
 
             print(pista.get_estado())
 
-
-
-
-
         else:
             ataqueLlegadas = True
-            # Generar fin ataque llegadas
-            # todo agregar lo de rk
-            tiempo = calculo_RK()
+            tiempo, dfDuracionLlegadas = RKControlador.calcularRKDuracionBloqueo(clk)
+
+            RungeKuttas[2].append(dfDuracionLlegadas)
 
             finAtaque = clases.Evento("fin ataque llegadas", avionNulo, tiempo+clk)
             bisect.insort_left(eventos, finAtaque)
 
-
-
     elif tipo_evento == "fin ataque servidor":
-        #Generar nuevo ataque
-        #todo agregar lo de rk
-        tiempo = calculo_RK()
-
+        tiempo, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
+        RungeKuttas[1].append(dfMomentoAtaque)
         rnd = random.random()
         if rnd*10 < probAtaqueLlegadas:
             objetivo = "llegadas"
@@ -243,13 +236,10 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
         else:
             pista.set_estado("libre")
 
-
-
-
     elif tipo_evento == "fin ataque llegadas":
-        #Generar nuevo ataque
-        #todo agregar lo de rk
-        tiempo = calculo_RK()
+
+        tiempo, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
+        RungeKuttas[1].append(dfMomentoAtaque)
 
         rnd = random.random()
         if (rnd*10) < probAtaqueLlegadas:
@@ -407,7 +397,26 @@ def simular(pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nu
             df.at[0, "aviones en tierra"] = aterrizajes - salidas
     eventos.remove(eventos[0])
 
-    return clk, llegadas, aterrizajes, salidas, derivados, nuevo, df, df2, ataqueLlegadas, estabaOcupadaLaPista
+    if llegadas == 30:
+
+        RKControlador.set_tiempo30llegada(clk)
+        avionNulo = clases.Avion(None, 0, 0, 0, (1, 1), (1, 1), (1, 1))
+        avionNulo.set_nombre("n/a")
+        tiempoRKMomentoAtaque, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
+        RungeKuttas[0].append(dfMomentoAtaque)
+        primerAtaque = clases.Evento("llegada ataque", avionNulo, clk+tiempoRKMomentoAtaque)
+
+        rnd = random.random()
+        if rnd * 10 < probAtaqueLlegadas:
+            objetivo = "llegadas"
+        else:
+            objetivo = "servidor"
+
+        primerAtaque.set_objetivo(objetivo)
+        bisect.insort_right(eventos, primerAtaque)
+
+
+    return clk, llegadas, aterrizajes, salidas, derivados, nuevo, df, df2, ataqueLlegadas, estabaOcupadaLaPista, RungeKuttas
 
 
 def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(60, 20),
@@ -420,18 +429,18 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
 
     eventos = [clases.Evento("llegada", actual, actual.get_tiempo_llegada())]
 
-    avionNulo = clases.Avion(None, 0, 0, 0, (1,1), (1,1), (1,1))
-    avionNulo.set_nombre("n/a")
-    primerAtaque =  clases.Evento("llegada ataque", avionNulo, calculo_RK())
-
-    rnd = random.random()
-    if rnd*10 < probAtaqueLlegadas:
-        objetivo = "llegadas"
-    else:
-        objetivo = "servidor"
-
-    primerAtaque.set_objetivo(objetivo)
-    bisect.insort_right(eventos, primerAtaque)
+    # avionNulo = clases.Avion(None, 0, 0, 0, (1,1), (1,1), (1,1))
+    # avionNulo.set_nombre("n/a")
+    # primerAtaque =  clases.Evento("llegada ataque", avionNulo, calculo_RK())
+    #
+    # rnd = random.random()
+    # if rnd*10 < probAtaqueLlegadas:
+    #     objetivo = "llegadas"
+    # else:
+    #     objetivo = "servidor"
+    #
+    # primerAtaque.set_objetivo(objetivo)
+    # bisect.insort_right(eventos, primerAtaque)
 
 
     tiemposSalidas = [tiempos[1], tiempos[2], tiempos[3], tiempos[4], tiempos[5]]
@@ -441,9 +450,10 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
         bisect.insort_left(eventos, event)
 
     colas = {"llegada": [], "salida": []}
+    RungeKuttas = [[], [], []]
 
-    #clk = actual.get_tiempo_llegada() # aca por esto no simula a no ser q pongas mas de 21 min de simulacion
-    clk = 0
+    clk = actual.get_tiempo_llegada() # aca por esto no simula a no ser q pongas mas de 21 min de simulacion
+    #clk = 0
     pista = clases.Pista("libre")
 
     aterrizajes = 5
@@ -472,7 +482,7 @@ def principal(pantalla, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(6
         print(clk, eventos[0].get_tipo(), pista.get_estado(), len(colas["llegada"]), eventos[0].get_avion())
         ataqueLlegadas = False
 
-        clk, llegadas, aterrizajes, salidas, derivados, nuevo, fila, fila2, ataqueLlegadas, estabaOcupadaLaPista = simular(pista, colas, eventos, llegadas,
+        clk, llegadas, aterrizajes, salidas, derivados, nuevo, fila, fila2, ataqueLlegadas, estabaOcupadaLaPista, RungeKuttas = simular(RungeKuttas, pista, colas, eventos, llegadas,
                                                                                      aterrizajes, salidas, derivados,
                                                                                      nuevo
                                                                                      , normal, uniAterrizaje,

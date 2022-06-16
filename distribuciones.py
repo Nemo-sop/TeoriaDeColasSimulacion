@@ -19,11 +19,3 @@ def truncate(values, decs=0):
     """funcion utilizada para truncar nuevaDistr y no trabajar con todos los decimales de python """
     return np.trunc(values * 10 ** decs) / (10 ** decs)
 
-contador =0
-while True:
-    contador += 1
-    x = normal(60, 20)
-    print(x)
-    if x < 0:
-        print(str(contador) + " numeros generados")
-        break

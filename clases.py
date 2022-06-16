@@ -15,7 +15,10 @@ class Avion():
         self.__tiempo_espera_tierra = tiempo_espera_tierra
         self.__demora_aterrizar = round(distribuciones.uniforme(aterrizaje[0], aterrizaje[1]), 4)
         self.__demora_despegar = round(distribuciones.uniforme(despegue[0], despegue[1]), 4)
-        self.__demora_estacion = round(distribuciones.normal(normal[0], normal[1]), 4)
+        demoraEstacion = round(distribuciones.normal(normal[0], normal[1]), 4)
+        while demoraEstacion < 0:
+            demoraEstacion = round(distribuciones.normal(normal[0], normal[1]), 4)
+        self.__demora_estacion = demoraEstacion
 
         self.__tiempo_en_estacion = tiempo_llegada + tiempo_espera_aire + self.__demora_aterrizar
 
