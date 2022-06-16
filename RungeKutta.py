@@ -10,9 +10,9 @@ import distribuciones
 
 
 class Controlador():
-    def __init__(self):
+    def __init__(self, tiempo):
         super().__init__()
-        self.__tiempo30llegada = 0
+        self.__tiempo30llegada = tiempo
 
     def get_tiempo30llegada(self):
         return self.__tiempo30llegada
@@ -61,7 +61,7 @@ class Controlador():
 
     def calcularRKDuracionBloqueo(self, reloj):
         # lambda x,y:
-        ecDif = lambda t, L: - (L / 0.8) * (t**2) - L
+        ecDif = lambda t, L: -(L / 0.8) * (t**2) - L
         valor, dfDuracionBloqueo = self.rungeKuttaDuracionBloqueo(ecDif, 0, reloj)
         valorReal = valor * 5
 
@@ -74,8 +74,9 @@ class Controlador():
         h = 0.1
 
         yAnterior = yi
+        unaMasFlaco = False
 
-        while abs(yAnterior - yi) < 1:
+        while True:#abs(yAnterior - yi) < 1:
             yAnterior = yi
             fila = pd.DataFrame({"xi": [], "yi": [], "k1": [], "k2": [], "k3": [], "k4": [], "xi+1": [], "yi+1": []})
 
@@ -89,7 +90,7 @@ class Controlador():
 
             fila.at[0, "xi"] = xi
             fila.at[0, "yi"] = yAnterior
-
+            #print(xi, yi, yAnterior)
             xi += h
 
             fila.at[0, "k1"] = k1
@@ -99,27 +100,36 @@ class Controlador():
             fila.at[0, "xi+1"] = xi
             fila.at[0, "yi+1"] = yi
 
-
-
             dfDuracionBloqueo = pd.concat([dfDuracionBloqueo, fila], ignore_index=True)
 
 
+            if unaMasFlaco:
+                return xi, dfDuracionBloqueo
+
+            if abs(yAnterior - yi) < 1:
+                unaMasFlaco = True
+
+
+
+        #print("terminado")
         return xi, dfDuracionBloqueo
 
 
     def calcularRKDuracionAtaqueServidores(self, reloj):
         # lambda x,y:
         ecDif = lambda t, S: (0.2 * S) + 3 - t
-        valor, dfDuracionAtaqueServidores = self.rungeKuttaDuracionAtaqueServidores(ecDif, 0, reloj)
+        valor, dfDuracionAtaqueServidores = self.rungeKuttaDuracionAtaqueServidores(ecDif, 0, reloj, reloj)
         valorReal = valor * 2
         return valorReal, dfDuracionAtaqueServidores
 
-    def rungeKuttaDuracionAtaqueServidores(self, fun, xi, yi, ):
+    def rungeKuttaDuracionAtaqueServidores(self, fun, xi, yi, reloj):
         dfDuracionAtaqueServidores = pd.DataFrame({"xi":[], "yi":[], "k1":[], "k2":[], "k3":[], "k4":[], "xi+1":[], "yi+1":[]})
 
         h = 0.01
         reloj = yi
-        while yi > (reloj * 1.35):
+        objetivoEncontrado = False
+        unaMasFlaco = False
+        while True:#yi < (reloj * 1.35):
             fila = pd.DataFrame({"xi": [], "yi": [], "k1": [], "k2": [], "k3": [], "k4": [], "xi+1": [], "yi+1": []})
 
             k1 = fun(xi, yi)
@@ -139,19 +149,35 @@ class Controlador():
             fila.at[0, "k4"] = k4
             fila.at[0, "xi+1"] = xi
             fila.at[0, "yi+1"] = yi
+            #print(xi, yi, reloj)
+
+            if yi >= reloj*1.35 and not objetivoEncontrado:
+                objetivo = yi*1.35
+                objetivoEncontrado = True
+
+
 
             dfDuracionAtaqueServidores = pd.concat([dfDuracionAtaqueServidores, fila], ignore_index=True)
 
-        return xi, dfDuracionAtaqueServidores
+            if unaMasFlaco:
+                return round(xi, 4), dfDuracionAtaqueServidores
 
-prueba = Controlador()
-prueba.set_tiempo30llegada(250)
+            if objetivoEncontrado and yi >= objetivo:
+                unaMasFlaco = True
 
-for i in range(22, 250):
-    # tiempo, df =prueba.calcularRKDuracionAtaqueServidores(647)
-    # print(tiempo)
-    tiempo, df = prueba.calcularRKDuracionBloqueo(i)
-    print(tiempo)
+
+
+
+# prueba = Controlador()
+# prueba.set_tiempo30llegada(250)
+#
+# for i in range(22, 23):
+#     tiempo, df =prueba.calcularRKDuracionAtaqueServidores(86)
+#     print(tiempo)
+#     print(df)
+#     tiempo, df = prueba.calcularRKDuracionBloqueo(86)
+#     print(tiempo)
+
 
 
 

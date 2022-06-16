@@ -72,6 +72,13 @@ class Pista():
         self.__tiempo_ocup = tmp
         self.__suma_ocup = tmp
         self.__tiempo_atacada = tiempoAtaque
+        self.__Auxiliar_tiempo_ataque_llegadas = 0
+
+    def set_Auxiliar_tiempo_ataque_llegadas(self, tiempo):
+        self.__Auxiliar_tiempo_ataque_llegadas = tiempo
+
+    def get_Auxiliar_tiempo_ataque_llegadas(self):
+        return self.__Auxiliar_tiempo_ataque_llegadas
 
     def set_tiempo_ataque(self, tiempo):
         self.__tiempo_atacada = tiempo
