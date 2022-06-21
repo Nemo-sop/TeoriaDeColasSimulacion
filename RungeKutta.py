@@ -6,9 +6,6 @@ import pandas as pd
 def calculo_RK():
     return 24
 
-import distribuciones
-
-
 class Controlador():
     def __init__(self, tiempo):
         super().__init__()

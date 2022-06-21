@@ -2,8 +2,8 @@ import random
 import distribuciones
 import string
 
-class Avion():
 
+class Avion():
 
     def __init__(self, estado, tiempo_llegada,tiempo_espera_aire=0, tiempo_espera_tierra=0,normal = (60,20), despegue = (4,7)
                  ,aterrizaje = (3,5)):
@@ -28,6 +28,7 @@ class Avion():
 
     def set_nombre(self, nombre):
         self.__nombre = nombre
+
     def get_tiempo_estacion(self):
         return self.__tiempo_en_estacion
 

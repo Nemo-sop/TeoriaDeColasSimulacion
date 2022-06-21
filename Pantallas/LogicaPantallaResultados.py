@@ -2,6 +2,7 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 
 import distribuciones
+from Pantallas import LogicaPantallaRK
 
 
 class PantallaResultados(QMainWindow):
@@ -11,23 +12,26 @@ class PantallaResultados(QMainWindow):
         super().__init__()
 
         """Cargar la GUI"""
-        uic.loadUi("pantallaResultados.ui", self)
-        print("Hello World!")
+        uic.loadUi("Pantallas/pantallaResultados.ui", self)
 
-    def mostrarResultados(self, datos, estadisticas, inicio):
+        self.btnRungeKutta.clicked.connect(self.mostrarRungeKutta)
+
+    def mostrarResultados(self, datos, estadisticas, inicio, RungeKuttas):
         self.cargarTabla(datos, inicio)
         self.cargarEstadisticas(estadisticas)
+        self.RungeKuttas = RungeKuttas
 
     def cargarTabla(self, datos, inicio):
         fila = 0
 
         cantFilas = len(datos)
-        self.tablaResultados.setRowCount(401)
 
         if cantFilas < 400:
             final = cantFilas
+            self.tablaResultados.setRowCount(cantFilas)
         else:
             final = 400 + inicio
+            self.tablaResultados.setRowCount(401)
 
         for i in range(inicio, final):
             self.tablaResultados.setItem(fila, 0, QTableWidgetItem(str(distribuciones.truncate(datos.at[i, "clk"], 4))))
@@ -93,3 +97,8 @@ class PantallaResultados(QMainWindow):
         self.txtCantAvionesDerivados.setText(str(distribuciones.truncate(estadisticas[6], 4)))
         self.txtCantAvionesLlegaron.setText(str(distribuciones.truncate(estadisticas[7], 4)))
         self.txtCantAvionesAterriz.setText(str(distribuciones.truncate(estadisticas[8], 4)))
+
+    def mostrarRungeKutta(self):
+        self.pantallaRK = LogicaPantallaRK.PantallaRK()
+        self.pantallaRK.mostrarRK(self.RungeKuttas)
+        self.pantallaRK.show()

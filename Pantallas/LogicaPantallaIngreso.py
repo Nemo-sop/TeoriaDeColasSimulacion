@@ -1,10 +1,8 @@
-import PyQt5
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
+from PyQt5.QtWidgets import QMainWindow
 
-import LogicaPantallaResultados
+from Pantallas import LogicaPantallaResultados
 from main import *
-import distribuciones as d
 
 
 class PantallaIngreso(QMainWindow):
@@ -14,7 +12,7 @@ class PantallaIngreso(QMainWindow):
         super().__init__()
 
         """Cargar la GUI"""
-        uic.loadUi("pantallaIngreso.ui", self)
+        uic.loadUi("Pantallas/pantallaIngreso.ui", self)
 
         self.btnSimular.clicked.connect(self.metodoAuxiliar)
 
@@ -33,7 +31,7 @@ class PantallaIngreso(QMainWindow):
                       int(self.capMax.text()),
                       int(self.txtInicioFilas.text()))
 
-    def mostrarResultados(self, datos, estadisticas, inicio):
+    def mostrarResultados(self, datos, estadisticas, inicio, RungeKuttas):
         self.pantallaResultados = LogicaPantallaResultados.PantallaResultados()
-        self.pantallaResultados.mostrarResultados(datos, estadisticas, inicio)
+        self.pantallaResultados.mostrarResultados(datos, estadisticas, inicio, RungeKuttas)
         self.pantallaResultados.show()
