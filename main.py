@@ -291,9 +291,19 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
                 df.at[0, "tiempo hasta la prox llegada"] = nuevo.get_tiempo_llegada() - clk
                 df.at[0, "prox llegada"] = (nuevo.get_nombre(), nuevo.get_tiempo_llegada())
 
-                df.at[0, "proximo ataque"] = 0
+                varATK = ["no calc", "n/a"]
+                if hayUnAtaque:
+                    for i in eventos:
+                        if i.get_tipo() == "llegada ataque":
+                            varATK[0] = round(i.get_tiempo(), 4)
+                        if i.get_tipo() == "fin ataque llegadas" or i.get_tipo() == "fin ataque servidor":
+                            varATK[1] = round(i.get_tiempo() - clk, 4)
+                else:
+                    varATK[0] = "no se calculo el primer ataque"
+
+                df.at[0, "proximo ataque"] = varATK[0]
                 df.at[0, "objetivo del ataque"] = eventos[0].get_objetivo()
-                df.at[0, "duracion del ataque"] = 0
+                df.at[0, "duracion del ataque"] = varATK[1]
 
                 if len(colas["salida"]) == 0:
                     df.at[0, "proximo avion que sale"] = "n/a"
@@ -322,9 +332,19 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
             df.at[0, "tiempo hasta la prox llegada"] = nuevo.get_tiempo_llegada() - clk
             df.at[0, "prox llegada"] = (nuevo.get_nombre(), nuevo.get_tiempo_llegada())
 
-            df.at[0, "proximo ataque"] = 0
+            varATK = ["no calc", "n/a"]
+            if hayUnAtaque:
+                for i in eventos:
+                    if i.get_tipo() == "llegada ataque":
+                        varATK[0] = round(i.get_tiempo(),4)
+                    if i.get_tipo() == "fin ataque llegadas" or i.get_tipo() == "fin ataque servidor":
+                        varATK[1] = round(i.get_tiempo() - clk, 4)
+            else:
+                varATK[0] = "no se calculo el primer ataque"
+
+            df.at[0, "proximo ataque"] = varATK[0]
             df.at[0, "objetivo del ataque"] = eventos[0].get_objetivo()
-            df.at[0, "duracion del ataque"] = 0
+            df.at[0, "duracion del ataque"] = varATK[1]
 
             if len(colas["salida"]) == 0:
                 df.at[0, "proximo avion que sale"] = "n/a"
@@ -355,9 +375,19 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
             df.at[0, "tiempo hasta la prox llegada"] = nuevo.get_tiempo_llegada() - clk
             df.at[0, "prox llegada"] = (nuevo.get_nombre(), nuevo.get_tiempo_llegada())
 
-            df.at[0, "proximo ataque"] = 0
+            varATK = ["no calc", "n/a"]
+            if hayUnAtaque:
+                for i in eventos:
+                    if i.get_tipo() == "llegada ataque":
+                        varATK[0] = round(i.get_tiempo(),4)
+                    if i.get_tipo() == "fin ataque llegadas" or i.get_tipo() == "fin ataque servidor":
+                        varATK[1] = round(i.get_tiempo() - clk, 4)
+            else:
+                varATK[0] = "no se calculo el primer ataque"
+
+            df.at[0, "proximo ataque"] = varATK[0]
             df.at[0, "objetivo del ataque"] = eventos[0].get_objetivo()
-            df.at[0, "duracion del ataque"] = 0
+            df.at[0, "duracion del ataque"] = varATK[1]
 
             if len(colas["salida"]) == 0:
                 df.at[0, "proximo avion que sale"] = "n/a"
@@ -387,9 +417,19 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
             df.at[0, "tiempo hasta la prox llegada"] = nuevo.get_tiempo_llegada() - clk
             df.at[0, "prox llegada"] = (nuevo.get_nombre(), nuevo.get_tiempo_llegada())
 
-            df.at[0, "proximo ataque"] = 0
+            varATK = ["no calc", "n/a"]
+            if hayUnAtaque:
+                for i in eventos:
+                    if i.get_tipo() == "llegada ataque":
+                        varATK[0] = round(i.get_tiempo(),4)
+                    if i.get_tipo() == "fin ataque llegadas" or i.get_tipo() == "fin ataque servidor":
+                        varATK[1] = round(i.get_tiempo() - clk, 4)
+            else:
+                varATK[0] = "no se calculo el primer ataque"
+
+            df.at[0, "proximo ataque"] = varATK[0]
             df.at[0, "objetivo del ataque"] = eventos[0].get_objetivo()
-            df.at[0, "duracion del ataque"] = 0
+            df.at[0, "duracion del ataque"] = varATK[1]
 
             if len(colas["salida"]) == 0:
                 df.at[0, "proximo avion que sale"] = "n/a"
