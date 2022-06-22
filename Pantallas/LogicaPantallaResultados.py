@@ -88,7 +88,7 @@ class PantallaResultados(QMainWindow):
 
     def cargarEstadisticas(self, estadisticas):
         self.txtTiempoPromedioPermSistema.setText(str(distribuciones.truncate(estadisticas[0], 4)))
-        self.txtPorcPromedioPermTierra.setText(str(distribuciones.truncate(estadisticas[1], 4)))
+        #self.txtPorcPromedioPermTierra.setText(str(distribuciones.truncate(estadisticas[1], 4)))
         self.txtPorcOcupacionPista.setText(str(distribuciones.truncate(estadisticas[2], 4)))
 
         self.txtTiempoPistaLibre.setText(str(distribuciones.truncate(estadisticas[3], 4)))

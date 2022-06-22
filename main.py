@@ -593,22 +593,24 @@ def principal(pantallaIngreso, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, no
     promedioPermanencia = data2["tiempo de permanencia en el sistema"].mean()
     estadisticos[0] = promedioPermanencia
 
-    # porcentaje permanencia en tierra -> Cola
-    tiemposEsperaTierra = data2["tiempo espera en tierra"]
+    '''
+        # porcentaje permanencia en tierra -> Cola
+        tiemposEsperaTierra = data2["tiempo espera en tierra"]
 
-    sumaTiempos = 0
+        sumaTiempos = 0
 
-    for i in range(1, len(tiemposEsperaTierra)):
-        sumaTiempos += tiemposEsperaTierra[i]
+        for i in range(1, len(tiemposEsperaTierra)):
+            sumaTiempos += tiemposEsperaTierra[i]
 
-    cantAviones = len(data2["avion"]) - 1
+        cantAviones = len(data2["avion"]) - 1
 
-    if sumaTiempos == 0:
-        sumaTiempos = 1
+        if sumaTiempos == 0:
+            sumaTiempos = 1
 
-    porcentajePermanencia = (cantAviones / sumaTiempos) * 100
+        porcentajePermanencia = (cantAviones / sumaTiempos) * 100
 
-    estadisticos[1] = porcentajePermanencia
+        estadisticos[1] = porcentajePermanencia
+    '''
 
     # cantidad promedio de clientes en cola en aire -> Cola
 
