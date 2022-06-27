@@ -189,6 +189,7 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
 
         if eventos[0].get_objetivo() == "servidor":
 
+            print("Para buscar: " + str(clk))
             tiempo, dfDuracionServidor = RKControlador.calcularRKDuracionAtaqueServidores(clk)
 
             RungeKuttas[1].append(dfDuracionServidor)
@@ -231,7 +232,7 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
 
     elif tipo_evento == "fin ataque servidor":
         tiempo, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
-        RungeKuttas[1].append(dfMomentoAtaque)
+        RungeKuttas[0].append(dfMomentoAtaque)
         rnd = random.random()
         if rnd < probAtaqueLlegadas:
             objetivo = "llegadas"
@@ -249,7 +250,7 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
     elif tipo_evento == "fin ataque llegadas":
 
         tiempo, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
-        RungeKuttas[1].append(dfMomentoAtaque)
+        RungeKuttas[0].append(dfMomentoAtaque)
 
         rnd = random.random()
         if (rnd) < probAtaqueLlegadas:

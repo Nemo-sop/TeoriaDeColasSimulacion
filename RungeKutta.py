@@ -60,7 +60,7 @@ class Controlador():
         # lambda x,y:
         ecDif = lambda t, L: -(L / 0.8) * (t**2) - L
         valor, dfDuracionBloqueo = self.rungeKuttaDuracionBloqueo(ecDif, 0, reloj)
-        valorReal = valor * 10
+        valorReal = valor * 5
 
         return valorReal, dfDuracionBloqueo
 
