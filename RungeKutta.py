@@ -126,6 +126,7 @@ class Controlador():
         reloj = yi
         objetivoEncontrado = False
         unaMasFlaco = False
+        dosMasFlaco = False
         while True:#yi < (reloj * 1.35):
             fila = pd.DataFrame({"xi": [], "yi": [], "k1": [], "k2": [], "k3": [], "k4": [], "xi+1": [], "yi+1": []})
 
@@ -148,19 +149,24 @@ class Controlador():
             fila.at[0, "yi+1"] = yi
             #print(xi, yi, reloj)
 
+            if dosMasFlaco:
+                return round(xi, 4), dfDuracionAtaqueServidores
+
+            if unaMasFlaco:
+                dosMasFlaco = True
+
             if yi >= reloj*1.35 and not objetivoEncontrado:
                 objetivo = yi*1.35
                 objetivoEncontrado = True
+                unaMasFlaco = True
+                # return round(xi, 4), dfDuracionAtaqueServidores
 
 
 
             dfDuracionAtaqueServidores = pd.concat([dfDuracionAtaqueServidores, fila], ignore_index=True)
 
-            if unaMasFlaco:
-                return round(xi, 4), dfDuracionAtaqueServidores
-
-            if objetivoEncontrado and yi >= objetivo:
-                unaMasFlaco = True
+            # if objetivoEncontrado and yi >= objetivo:
+            #     unaMasFlaco = True
 
 
 
