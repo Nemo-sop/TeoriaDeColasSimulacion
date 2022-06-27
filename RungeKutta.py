@@ -149,6 +149,8 @@ class Controlador():
             fila.at[0, "yi+1"] = yi
             #print(xi, yi, reloj)
 
+            dfDuracionAtaqueServidores = pd.concat([dfDuracionAtaqueServidores, fila], ignore_index=True)
+
             if dosMasFlaco:
                 return round(xi, 4), dfDuracionAtaqueServidores
 
@@ -163,7 +165,7 @@ class Controlador():
 
 
 
-            dfDuracionAtaqueServidores = pd.concat([dfDuracionAtaqueServidores, fila], ignore_index=True)
+            # dfDuracionAtaqueServidores = pd.concat([dfDuracionAtaqueServidores, fila], ignore_index=True)
 
             # if objetivoEncontrado and yi >= objetivo:
             #     unaMasFlaco = True

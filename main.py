@@ -281,6 +281,27 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
     elif tipo_evento == "fin despegue":
         extra += ""
 
+    if llegadas == 30 and not hayUnAtaque:
+        hayUnAtaque = True
+        clkRK = clk
+
+        RKControlador.set_tiempo30llegada(clkRK)
+        avionNulo = clases.Avion(None, 0, 0, 0, (1, 1), (1, 1), (1, 1))
+        avionNulo.set_nombre("n/a")
+        tiempoRKMomentoAtaque, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
+        RungeKuttas[0].append(dfMomentoAtaque)
+        primerAtaque = clases.Evento("llegada ataque", avionNulo, clk + tiempoRKMomentoAtaque)
+
+        rnd = random.random()
+        if rnd < probAtaqueLlegadas:
+            objetivo = "llegadas"
+        else:
+            objetivo = "servidor"
+
+        primerAtaque.set_objetivo(objetivo)
+        bisect.insort_right(eventos, primerAtaque)
+
+
     if tipo_evento == "fin estacion":
 
         if len(colas["salida"]) != 0:
@@ -370,7 +391,7 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
     else:
         if tipo_evento == "insistencia":
             df.at[0, "clk"] = clk
-            df.at[0, "tipo"] = "llegada" + extra
+            df.at[0, "tipo"] = "cambiarACA" + extra
             df.at[0, "avion"] = eventos[0].get_avion().get_nombre()
             df.at[0, "tiempo hasta la prox llegada"] = nuevo.get_tiempo_llegada() - clk
             df.at[0, "prox llegada"] = (nuevo.get_nombre(), nuevo.get_tiempo_llegada())
@@ -455,25 +476,6 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
 
     eventos.remove(eventos[0])
 
-    if llegadas == 30 and not hayUnAtaque:
-        hayUnAtaque = True
-        clkRK = clk
-
-        RKControlador.set_tiempo30llegada(clkRK)
-        avionNulo = clases.Avion(None, 0, 0, 0, (1, 1), (1, 1), (1, 1))
-        avionNulo.set_nombre("n/a")
-        tiempoRKMomentoAtaque, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
-        RungeKuttas[0].append(dfMomentoAtaque)
-        primerAtaque = clases.Evento("llegada ataque", avionNulo, clk + tiempoRKMomentoAtaque)
-
-        rnd = random.random()
-        if rnd < probAtaqueLlegadas:
-            objetivo = "llegadas"
-        else:
-            objetivo = "servidor"
-
-        primerAtaque.set_objetivo(objetivo)
-        bisect.insort_right(eventos, primerAtaque)
 
     return clkRK, hayUnAtaque, clk, llegadas, aterrizajes, salidas, derivados, nuevo, df, df2, ataqueLlegadas, \
            estabaOcupadaLaPista, RungeKuttas
