@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
+    <width>1867</width>
     <height>773</height>
    </rect>
   </property>
@@ -18,8 +18,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1200</width>
-    <height>773</height>
+    <width>16777215</width>
+    <height>9999999</height>
    </size>
   </property>
   <property name="palette">
@@ -154,15 +154,6 @@
      <colorrole role="ToolTipText">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="PlaceholderText">
-      <brush brushstyle="NoBrush">
-       <color alpha="128">
         <red>0</red>
         <green>0</green>
         <blue>0</blue>
@@ -306,15 +297,6 @@
        </color>
       </brush>
      </colorrole>
-     <colorrole role="PlaceholderText">
-      <brush brushstyle="NoBrush">
-       <color alpha="128">
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
     </inactive>
     <disabled>
      <colorrole role="WindowText">
@@ -452,15 +434,6 @@
        </color>
       </brush>
      </colorrole>
-     <colorrole role="PlaceholderText">
-      <brush brushstyle="NoBrush">
-       <color alpha="128">
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
     </disabled>
    </palette>
   </property>
@@ -472,60 +445,10 @@
     <normaloff>../imagenes/plane.png</normaloff>../imagenes/plane.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableWidget" name="tblLlegadaAtaque">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>90</y>
-      <width>861</width>
-      <height>171</height>
-     </rect>
-    </property>
-    <column>
-     <property name="text">
-      <string>t</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>K1</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>K2</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>K3</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>K4</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>t(i + 1)</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>A(i + 1)</string>
-     </property>
-    </column>
-   </widget>
    <widget class="QLabel" name="label_13">
     <property name="geometry">
      <rect>
-      <x>390</x>
+      <x>670</x>
       <y>10</y>
       <width>661</width>
       <height>61</height>
@@ -544,10 +467,10 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>70</y>
-      <width>1161</width>
-      <height>211</height>
+      <x>30</x>
+      <y>180</y>
+      <width>901</width>
+      <height>411</height>
      </rect>
     </property>
     <property name="font">
@@ -559,11 +482,77 @@
     <property name="title">
      <string>Cálculo Próximo Bloqueo</string>
     </property>
+    <widget class="QTableWidget" name="tblLlegadaAtaque">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>80</y>
+       <width>861</width>
+       <height>291</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>t</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>A</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>K1</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>K2</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>K3</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>K4</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>t(i + 1)</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>A(i + 1)</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QLineEdit" name="txtA">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>139</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
     <widget class="QLabel" name="label_14">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>40</y>
+       <y>20</y>
        <width>301</width>
        <height>21</height>
       </rect>
@@ -578,30 +567,14 @@
       <string>A (Tiempo de las primeras 30 llegadas)</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="txtA">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>70</y>
-       <width>139</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>290</y>
-      <width>1161</width>
-      <height>211</height>
+      <x>940</x>
+      <y>70</y>
+      <width>901</width>
+      <height>341</height>
      </rect>
     </property>
     <property name="font">
@@ -616,10 +589,10 @@
     <widget class="QTableWidget" name="tblDuracionBloqueo">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>20</y>
+       <x>20</x>
+       <y>30</y>
        <width>861</width>
-       <height>171</height>
+       <height>281</height>
       </rect>
      </property>
      <column>
@@ -667,10 +640,10 @@
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>510</y>
-      <width>1161</width>
-      <height>231</height>
+      <x>940</x>
+      <y>420</y>
+      <width>901</width>
+      <height>321</height>
      </rect>
     </property>
     <property name="font">
@@ -685,10 +658,10 @@
     <widget class="QTableWidget" name="tblDuracionAtaqueServ">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>20</x>
        <y>30</y>
        <width>861</width>
-       <height>192</height>
+       <height>271</height>
       </rect>
      </property>
      <column>
@@ -736,7 +709,6 @@
    <zorder>groupBox</zorder>
    <zorder>groupBox_3</zorder>
    <zorder>groupBox_2</zorder>
-   <zorder>tblLlegadaAtaque</zorder>
    <zorder>label_13</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
