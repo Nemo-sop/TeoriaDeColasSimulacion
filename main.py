@@ -26,6 +26,7 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
         , "demora despegue": [], "tiempo espera aire total": [], "tiempo espera tierra total": []
     }, dtype=object)
 
+
     avionNulo = clases.Avion(None, 0, 0, 0, (1, 1), (1, 1), (1, 1))
     avionNulo.set_nombre("n/a")
 
