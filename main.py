@@ -13,7 +13,7 @@ import random
 
 def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, aterrizajes, salidas, derivados, nuevo,
             normal, uniAterrizaje,
-            uniSalidas, expNegLlegadas, capMax, probAtaqueLlegadas, ataqueLlegadas, estabaOcupadaLaPista):
+            uniSalidas, expNegLlegadas, capMax, probAtaqueLlegadas, ataqueLlegadas, tiempoEntreAtaques, estabaOcupadaLaPista):
     RKControlador = Controlador(clkRK)
     df = pd.DataFrame({"clk": [], "tipo": []
                           , "avion": [], "tiempo hasta la prox llegada": [], "prox llegada": [], "proximo ataque": [],
@@ -189,7 +189,7 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
 
         if eventos[0].get_objetivo() == "servidor":
 
-            print("Para buscar: " + str(clk))
+            print("PAra bailar la bamba... se necesita el clk: " + str(clk))
             tiempo, dfDuracionServidor = RKControlador.calcularRKDuracionAtaqueServidores(clk)
 
             RungeKuttas[1].append(dfDuracionServidor)
@@ -231,15 +231,15 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
             pista.set_Auxiliar_tiempo_ataque_llegadas(tiempo)
 
     elif tipo_evento == "fin ataque servidor":
-        tiempo, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
-        RungeKuttas[0].append(dfMomentoAtaque)
+        # tiempo, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
+        # RungeKuttas[0].append(dfMomentoAtaque)
         rnd = random.random()
         if rnd < probAtaqueLlegadas:
             objetivo = "llegadas"
         else:
             objetivo = "servidor"
 
-        proxAtaque = clases.Evento("llegada ataque", avionNulo, tiempo + clk, objetivo=objetivo)
+        proxAtaque = clases.Evento("llegada ataque", avionNulo, tiempoEntreAtaques + clk, objetivo=objetivo)
         bisect.insort_left(eventos, proxAtaque)
 
         if estabaOcupadaLaPista:
@@ -249,8 +249,8 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
 
     elif tipo_evento == "fin ataque llegadas":
 
-        tiempo, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
-        RungeKuttas[0].append(dfMomentoAtaque)
+        # tiempo, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
+        # RungeKuttas[0].append(dfMomentoAtaque)
 
         rnd = random.random()
         if (rnd) < probAtaqueLlegadas:
@@ -258,7 +258,7 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
         else:
             objetivo = "servidor"
 
-        proxAtaque = clases.Evento("llegada ataque", avionNulo, tiempo + clk, objetivo=objetivo)
+        proxAtaque = clases.Evento("llegada ataque", avionNulo, tiempoEntreAtaques + clk, objetivo=objetivo)
         bisect.insort_left(eventos, proxAtaque)
 
         ataqueLlegadas = False
@@ -291,6 +291,7 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
         avionNulo.set_nombre("n/a")
         tiempoRKMomentoAtaque, dfMomentoAtaque = RKControlador.calcularRKMomentoAtaque()
         RungeKuttas[0].append(dfMomentoAtaque)
+        tiempoEntreAtaques = tiempoRKMomentoAtaque
         primerAtaque = clases.Evento("llegada ataque", avionNulo, clk + tiempoRKMomentoAtaque)
 
         rnd = random.random()
@@ -392,7 +393,7 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
     else:
         if tipo_evento == "insistencia":
             df.at[0, "clk"] = clk
-            df.at[0, "tipo"] = "cambiarACA" + extra
+            df.at[0, "tipo"] = "llegada" + extra
             df.at[0, "avion"] = eventos[0].get_avion().get_nombre()
             df.at[0, "tiempo hasta la prox llegada"] = nuevo.get_tiempo_llegada() - clk
             df.at[0, "prox llegada"] = (nuevo.get_nombre(), nuevo.get_tiempo_llegada())
@@ -479,7 +480,7 @@ def simular(clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas, at
 
 
     return clkRK, hayUnAtaque, clk, llegadas, aterrizajes, salidas, derivados, nuevo, df, df2, ataqueLlegadas, \
-           estabaOcupadaLaPista, RungeKuttas
+           estabaOcupadaLaPista, RungeKuttas, tiempoEntreAtaques
 
 
 def principal(pantallaIngreso, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, normal=(60, 20),
@@ -543,6 +544,7 @@ def principal(pantallaIngreso, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, no
     hayUnAtaque = False
     clkRK = 0
     ataqueLlegadas = False
+    tiempoEntreAtaques = 0
     while tiempo_total >= clk:
 
         """
@@ -555,12 +557,12 @@ def principal(pantallaIngreso, tiempos=(22, 7, 9, 15, 17, 20), duracion=2000, no
         print(ataqueLlegadas, llegadas, clk, eventos[0].get_tipo(), pista.get_tiempo_ataque(), pista.get_estado(),
               len(colas["llegada"]), eventos[0].get_avion())
 
-        clkRK, hayUnAtaque, clk, llegadas, aterrizajes, salidas, derivados, nuevo, fila, fila2, ataqueLlegadas, estabaOcupadaLaPista, RungeKuttas = simular(
+        clkRK, hayUnAtaque, clk, llegadas, aterrizajes, salidas, derivados, nuevo, fila, fila2, ataqueLlegadas, estabaOcupadaLaPista, RungeKuttas, tiempoEntreAtaques = simular(
             clkRK, hayUnAtaque, RungeKuttas, pista, colas, eventos, llegadas,
             aterrizajes, salidas, derivados,
             nuevo
             , normal, uniAterrizaje,
-            uniSalidas, expNegLlegadas, capMax, probAtaqueLlegadas, ataqueLlegadas, estabaOcupadaLaPista=None)
+            uniSalidas, expNegLlegadas, capMax, probAtaqueLlegadas, ataqueLlegadas, tiempoEntreAtaques, estabaOcupadaLaPista=None)
         data = pd.concat([data, fila], ignore_index=True)
         data2 = pd.concat([data2, fila2], ignore_index=True)
 

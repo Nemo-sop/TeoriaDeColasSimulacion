@@ -68,7 +68,7 @@ class Controlador():
 
         dfDuracionBloqueo = pd.DataFrame({"xi":[], "yi":[], "k1":[], "k2":[], "k3":[], "k4":[], "xi+1":[], "yi+1":[]})
 
-        h = 0.1
+        h = 0.01
 
         yAnterior = yi
         unaMasFlaco = False
